@@ -36,6 +36,7 @@ app.use(express.static(__dirname + '/assets', { index: false }));
 app.use(express.static(__dirname + '/dist', { index: false }));
 
 app.get('/health', (req, res) => {
+
     res.status(200).end('ok');
 });
 

@@ -17,7 +17,7 @@ variable "capacity" {
 }
 
 variable "team_name" {
-  default = "judicial_ui"
+  default = "rpa"
 }
 
 variable "app_language" {

@@ -3,8 +3,8 @@
 properties([
   [
     $class       : 'GithubProjectProperty',
-    displayName  : 'Judicial UI Web App',
-    projectUrlStr: 'https://github.com/hmcts/jui-webapp/'
+    displayName  : 'In Court Presentation Frontend',
+    projectUrlStr: 'https://github.com/hmcts/in-court-presentation-web/'
   ],
   pipelineTriggers([
     [$class: 'GitHubPushTrigger']
@@ -14,10 +14,10 @@ properties([
 @Library("Infrastructure") _
 
 def type = "nodejs"
-def product = "jui"
-def component = "webapp-web"
+def product = "rpa"
+def component = "icp-web"
 
-def channel = '#jui-pipeline'
+def channel = '#rpa-pipeline'
 
 withPipeline(type , product, component) {
     after('checkout') {
