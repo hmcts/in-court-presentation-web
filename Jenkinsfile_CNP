@@ -4,7 +4,7 @@ properties([
   [
     $class       : 'GithubProjectProperty',
     displayName  : 'In Court Presentation Frontend',
-    projectUrlStr: 'https://github.com/hmcts/in-court-presentation-web/'
+    projectUrlStr: 'https://github.com/hmcts/rpa-in-court-presentation-web/'
   ],
   pipelineTriggers([
     [$class: 'GitHubPushTrigger']
