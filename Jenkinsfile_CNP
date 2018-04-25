@@ -15,7 +15,7 @@ properties([
 
 def type = "nodejs"
 def product = "rpa"
-def component = "icp-web"
+def component = "icp-w"
 
 def channel = '#rpa-pipeline'
 
