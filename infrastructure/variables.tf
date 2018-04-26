@@ -1,6 +1,12 @@
 variable "product" {
   type = "string"
-  default = "jui"
+  default = "rpa"
+  description = "The name of your application"
+}
+
+variable "component" {
+  type = "string"
+  default = "icp-w"
   description = "The name of your application"
 }
 
