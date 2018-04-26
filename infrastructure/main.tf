@@ -1,19 +1,22 @@
 locals {
-  app_full_name = "${var.product}-${var.app_name}-${var.app_type}"
+  app_full_name = "${var.product}-${var.component}"
   ase_name = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
+  local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
 }
 # "${local.ase_name}"
 # "${local.app_full_name}"
 
 module "app" {
-  source = "git@github.com:contino/moj-module-webapp?ref=master"
+  source = "git@github.com:hmcts/moj-module-webapp?ref=master"
   product = "${local.app_full_name}"
   location = "${var.location}"
   env = "${var.env}"
   ilbIp = "${var.ilbIp}"
   subscription = "${var.subscription}"
+  capacity     = "${var.capacity}"
   is_frontend = true
-  capacity = "${var.capacity}"
+  additional_host_name = "${local.app_full_name}-${var.env}.service.${var.env}.platform.hmcts.net"
+  https_only="true"
 
   app_settings = {
     # REDIS_HOST = "${module.redis-cache.host_name}"
@@ -34,11 +37,9 @@ module "app" {
     PACKAGES_NAME = "${local.app_full_name}"
     PACKAGES_PROJECT = "${var.team_name}"
     PACKAGES_ENVIRONMENT = "${var.env}"
-
+    
     ROOT_APPENDER = "${var.root_appender}"
     JSON_CONSOLE_PRETTY_PRINT = "${var.json_console_pretty_print}"
     LOG_OUTPUT = "${var.log_output}"
-
-    NODE_ENV = "${var.env}"
   }
 }
