@@ -8,10 +8,8 @@ import {Component, OnInit} from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-    data = null;
-
     baseUrl = '/demproxy/dm/documents';
-    docId = '52f55a07-dbc6-4d78-ad8a-0a9bcfec9d76';
+    docId = 'be9f1344-d795-49a4-9946-cbf0acd74f9f';
     url = `${this.baseUrl}/${this.docId}`;
 
     constructor() {
@@ -21,12 +19,6 @@ export class HomeComponent implements OnInit {
         this.docId = value;
         this.url = `${this.baseUrl}/${this.docId}`;
     }
-
-    // getData() {
-    //     this.mockService.getData().then(data => {
-    //         this.data = data;
-    //     });
-    // }
 
     ngOnInit() {
         // this.getData();

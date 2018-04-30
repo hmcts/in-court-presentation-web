@@ -9,23 +9,17 @@ import { PLATFORM_ID, APP_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { AppRoutingModule } from './/app-routing.module';
 import { HomeComponent } from './home/home.component';
-import { FeedbackComponent } from './feedback/feedback.component';
 import {EmViewerModule} from 'em-viewer-web';
-import {SharedModule } from './shared/shared.module';
-import {DomainModule } from './domain/domain.module';
-
 
 const routes: Routes = [
-    { path: '', component: HomeComponent },
-    { path: 'feedback', component: FeedbackComponent },
+    { path: '', component: HomeComponent }
 ];
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    FeedbackComponent
+    HomeComponent
   ],
   imports: [
       BrowserModule.withServerTransition({ appId: 'jui' }),
@@ -33,9 +27,7 @@ const routes: Routes = [
       AppRoutingModule,
       RouterModule.forRoot(routes),
       HttpClientModule,
-      // EmViewerModule,
-      SharedModule,
-      DomainModule
+      EmViewerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
