@@ -18,6 +18,10 @@ variable "app_type" {
   default = "web"
 }
 
+variable "s2s_service_name" {
+  default = "em_gw"
+}
+
 variable "capacity" {
   default = "2"
 }
@@ -33,6 +37,10 @@ variable "app_language" {
 variable "location" {
   type = "string"
   default = "UK South"
+}
+
+variable "vault_section" {
+  default = "test"
 }
 
 variable "env" {
