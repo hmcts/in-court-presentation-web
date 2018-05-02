@@ -44,7 +44,9 @@ app.get('/health', (req, res) => {
 app.use(serviceTokenMiddleware);
 
 const dmProxy = require('./proxies/dm');
+const icpProxy = require('./proxies/icp');
 dmProxy(app);
+icpProxy(app);
 
 
 
