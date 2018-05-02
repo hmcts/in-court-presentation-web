@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "build-universal": "ng build --prod",
+    "build-universal": "ng build",
     "e2e": "protractor ./protractor.conf.js",
     "start-dev": "ng serve",
     "start-dev-proxy": "ng serve --proxy-config proxy.config.json",
