@@ -36,7 +36,7 @@ module.exports = app => {
         }
     });
 
-    app.get('/icp/*', proxyMiddleware(proxyConfig));
+    app.use('/icp/*', proxyMiddleware(proxyConfig));
 
 };
 
