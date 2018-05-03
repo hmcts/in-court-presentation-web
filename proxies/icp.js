@@ -5,7 +5,7 @@ let proxyMiddleware = require('http-proxy-middleware');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 process.env.NODE_ENV = process.env.NODE_ENV || 'local';
 
-let target = process.env.DM_STORE_URL || 'https://rpa-icp-aat.service.core-compute-aat.internal';
+let target = process.env.ICP_URL || 'https://rpa-icp-aat.service.core-compute-aat.internal';
 
 let sshProxy;
 function attachSSHProxy(proxy) {
