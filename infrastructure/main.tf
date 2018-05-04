@@ -17,7 +17,6 @@ module "app" {
   is_frontend = true
   additional_host_name = "${local.app_full_name}-${var.env}.service.${var.env}.platform.hmcts.net"
   https_only="true"
-  web_sockets_enabled="true"
 
   app_settings = {
     # REDIS_HOST = "${module.redis-cache.host_name}"
