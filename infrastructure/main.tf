@@ -7,7 +7,7 @@ locals {
 # "${local.app_full_name}"
 
 module "app" {
-  source = "git@github.com:hmcts/moj-module-webapp?ref=Louisblack-patch-1 "
+  source = "git@github.com:hmcts/moj-module-webapp?ref=Louisblack-patch-1"
   product = "${local.app_full_name}"
   location = "${var.location}"
   env = "${var.env}"
