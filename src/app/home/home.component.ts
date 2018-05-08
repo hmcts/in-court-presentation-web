@@ -3,6 +3,8 @@ import {StompService} from '@stomp/ng2-stompjs';
 import {Message} from '@stomp/stompjs';
 import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
+import {ActivatedRoute} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
     selector: 'app-home',
@@ -12,37 +14,42 @@ import {Observable} from 'rxjs/Observable';
 export class HomeComponent implements OnInit {
 
   baseUrl = '/demproxy/dm/documents';
-  docId = 'be9f1344-d795-49a4-9946-cbf0acd74f9f';
-  url = `${this.baseUrl}/${this.docId}`;
+  currentDocument: string;
   public page = 1;
 
   public subscribed: boolean;
+  public following = true;
+  private sessionId: string;
   private subscription: Subscription;
   private messages: Observable<Message>;
+  private hearingDetails: any;
+  private currentDocumentAndPage: any;
+  private presenting: boolean;
 
-  constructor(private stompService: StompService) {
-  }
-
-  onEnter(value: string) {
-    this.docId = value;
-    this.url = `${this.baseUrl}/${this.docId}`;
+  constructor(private stompService: StompService,
+              private http: HttpClient,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.subscribed = false;
-
+    this.route.queryParamMap.subscribe(params => {
+      this.sessionId = params.get('id');
+      this.subscribe();
+      this.loadHearingDetails()
+    });
     // Store local reference to Observable
     // for use with template ( | async )
-    this.subscribe();
+
   }
 
   public subscribe() {
-    if (this.subscribed) {
+    if (this.subscribed || !this.sessionId) {
       return;
     }
 
     // Stream of messages
-    this.messages = this.stompService.subscribe('/topic/screen-change/123');
+    this.messages = this.stompService.subscribe(`/topic/screen-change/${this.sessionId}`);
 
     // Subscribe a function to be run on_next message
     this.subscription = this.messages.subscribe(this.onNext);
@@ -70,14 +77,50 @@ export class HomeComponent implements OnInit {
 
   public pageChange(page: number) {
     this.page = page;
-    this.stompService.publish('/icp/screen-change/123',
-      `{"page":  ${page}}`);
+    if (this.presenting) {
+      this.stompService.publish(`/icp/screen-change/${this.sessionId}`,
+        `{"page":  ${page}, "document": "${this.currentDocument}"}`);
+    }
   }
 
   onNext = (message: Message) => {
     // Log it to the console
     console.log(message);
     const update = JSON.parse(message.body);
-    this.page = update.page;
+    this.currentDocumentAndPage = update;
+    if (this.following && !this.presenting) {
+      this.currentDocument = update.document;
+      this.page = update.page;
+    }
+  }
+
+
+  private loadHearingDetails() {
+    this.http.get<any>(`/icp/sessions/${this.sessionId}`).subscribe(resp => {
+      this.hearingDetails = resp;
+      // this.currentDocument = resp.documents[0];
+    })
+  }
+
+  onDocumentChange(document: string) {
+    this.currentDocument = document;
+    this.page = 1;
+    if (this.presenting){
+      this.stompService.publish(`/icp/screen-change/${this.sessionId}`,
+        `{"page":  ${this.page}, "document": "${document}"}`);
+    }
+  }
+
+  setFollowing(following) {
+    console.log(following);
+    this.following = following;
+    if(this.following && this.currentDocumentAndPage) {
+      this.currentDocument = this.currentDocumentAndPage.document;
+      this.page = this.currentDocumentAndPage.page;
+    }
+  }
+
+  setPresenting(checked: boolean) {
+    this.presenting = checked;
   }
 }

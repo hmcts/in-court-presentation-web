@@ -12,9 +12,11 @@ import { HomeComponent } from './home/home.component';
 import { EmViewerModule } from 'em-viewer-web';
 import {StompConfig, StompService} from '@stomp/ng2-stompjs';
 import * as SockJS from "sockjs-client";
+import { NewSessionComponent } from './new-session/new-session.component';
 
 const routes: Routes = [
-    { path: '', component: HomeComponent }
+    { path: '', component: HomeComponent },
+    { path: 'new', component: NewSessionComponent }
 ];
 
 const stompConfig: StompConfig = {
@@ -45,7 +47,8 @@ const stompConfig: StompConfig = {
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    NewSessionComponent
   ],
   imports: [
       BrowserModule.withServerTransition({ appId: 'jui' }),
