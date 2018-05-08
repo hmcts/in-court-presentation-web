@@ -1,6 +1,19 @@
-<div>
-    <input #docIdInput type="text" [value]="docId" (keyup.enter)="onEnter(docIdInput.value)"/>
-</div>
-<div>
-    <app-em-viewer [url]="url" [page]="page" (pageChanged)="pageChange($event)"></app-em-viewer>
+<div *ngIf="hearingDetails && hearingDetails.documents" >
+  <div  *ngFor="let d of hearingDetails.documents">
+    <label>
+      <input type="radio" name="document" [checked]="currentDocument === d" (change)="onDocumentChange(d)" [value]="d" />
+      {{d}}
+    </label>
+  </div>
+  <div>
+    <label *ngIf="!presenting">
+      <input #followingCheckbox type="checkbox"  (change)="setFollowing(followingCheckbox.checked)" checked />
+      Following
+    </label>
+    <label>
+      <input #presentingCheckbox type="checkbox"  (change)="setPresenting(presentingCheckbox.checked)" />
+      Presenting
+    </label>
+  </div>
+    <app-em-viewer *ngIf="currentDocument" [url]="currentDocument" [page]="page" (pageChanged)="pageChange($event)"></app-em-viewer>
 </div>

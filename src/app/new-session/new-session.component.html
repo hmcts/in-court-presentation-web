@@ -1,0 +1,30 @@
+
+<div *ngIf="!sessionId">
+  <h1>Create new Hearing</h1>
+
+  <h3 *ngIf="documents.length">Hearing Documents</h3>
+  <ul>
+    <li *ngFor="let d of documents;">{{d}}</li>
+  </ul>
+
+    <label for="addParticipantInput">Enter e-mail address for a hearing participant</label>
+    <input #addParticipantInput  id="addParticipantInput" type="text"/>
+    <button (click)="addParticipant(addParticipantInput.value); addParticipantInput.value = ''">Add</button>
+
+  <h3 *ngIf="participants.length">Hearing Participants</h3>
+  <ul>
+    <li *ngFor="let p of participants;">{{p}}</li>
+  </ul>
+
+  <button (click)="createSession()">Create Hearing</button>
+</div>
+
+<div *ngIf="sessionId">
+  <h1>Hearing Created!</h1>
+
+  <a routerLink="/" routerLinkActive="active" [queryParams]="{id: sessionId}">Go to hearing</a>
+  <a href="{{buildMailLink()}}">E-mail link to participants</a>
+
+</div>
+
+
