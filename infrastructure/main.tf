@@ -15,7 +15,7 @@ module "app" {
   subscription = "${var.subscription}"
   capacity     = "${var.capacity}"
   is_frontend = true
-  additional_host_name = "${local.app_full_name}-${var.env}.service.${var.env}.platform.hmcts.net"
+  additional_host_name = "in-court-presentation-${var.env}.service.${var.env}.platform.hmcts.net"
   https_only="true"
   web_sockets_enabled="true"
 
