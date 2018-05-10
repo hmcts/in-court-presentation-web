@@ -35,8 +35,8 @@ export class HomeComponent implements OnInit {
     this.subscribed = false;
     this.route.queryParamMap.subscribe(params => {
       this.sessionId = params.get('id');
+      this.loadHearingDetails();
       this.subscribe();
-      this.loadHearingDetails()
     });
     // Store local reference to Observable
     // for use with template ( | async )
@@ -71,6 +71,10 @@ export class HomeComponent implements OnInit {
     this.subscribed = false;
   }
 
+  public isConnected() {
+    return this.stompService.connected();
+  }
+
   ngOnDestroy() {
     this.unsubscribe();
   }
@@ -94,12 +98,10 @@ export class HomeComponent implements OnInit {
     }
   }
 
-
   private loadHearingDetails() {
-    this.http.get<any>(`/icp/sessions/${this.sessionId}`).subscribe(resp => {
+    return this.http.get<any>(`/icp/sessions/${this.sessionId}`).subscribe(resp => {
       this.hearingDetails = resp;
-      // this.currentDocument = resp.documents[0];
-    })
+    });
   }
 
   onDocumentChange(document: string) {

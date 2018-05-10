@@ -5,7 +5,7 @@
       {{d}}
     </label>
   </div>
-  <div>
+  <div *ngIf="isConnected()">
     <label *ngIf="!presenting">
       <input #followingCheckbox type="checkbox"  (change)="setFollowing(followingCheckbox.checked)" checked />
       Following
@@ -14,6 +14,9 @@
       <input #presentingCheckbox type="checkbox"  (change)="setPresenting(presentingCheckbox.checked)" />
       Presenting
     </label>
+  </div>
+  <div *ngIf="!isConnected()">
+    <p>Waiting to connect to server...</p>
   </div>
     <app-em-viewer *ngIf="currentDocument" [url]="currentDocument" [page]="page" (pageChanged)="pageChange($event)"></app-em-viewer>
 </div>
