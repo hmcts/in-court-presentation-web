@@ -40,6 +40,12 @@
                         "styles": [
                             "src/styles.scss"
                         ],
+                        "stylePreprocessorOptions": {
+                          "includePaths": [
+                            "./node_modules/govuk_frontend_toolkit/stylesheets",
+                            "./node_modules/govuk-elements-sass/public/sass"
+                          ]
+                        },
                         "scripts": []
                     },
                     "configurations": {

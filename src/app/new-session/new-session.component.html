@@ -1,28 +1,36 @@
 
 <div *ngIf="!sessionId">
-  <h1>Create new Hearing</h1>
-
-  <h3 *ngIf="documents.length">Hearing Documents</h3>
+  <div class="grid-row">
+    <h1 class="heading-large">Create new Hearing</h1>
+  </div>
+  <div class="grid-row">
+    <h3 *ngIf="documents.length" class="heading-small">Hearing Documents</h3>
+    <ul>
+      <li class="column-full" *ngFor="let d of documents;">{{d}}</li>
+    </ul>
+  </div>
+  <div class="grid-row">
+    <div class="form-group">
+      <label class="form-label" for="addParticipantInput">Enter e-mail address for a hearing participant</label>
+      <input class="form-control" #addParticipantInput  id="addParticipantInput" type="text"/>
+    </div>
+      <button class="button" (click)="addParticipant(addParticipantInput.value); addParticipantInput.value = ''">Add</button>
+  </div>
+  <h3 *ngIf="participants.length" class="heading-small">Hearing Participants</h3>
   <ul>
-    <li *ngFor="let d of documents;">{{d}}</li>
+    <li class="column-full" *ngFor="let p of participants;">{{p}}</li>
   </ul>
-
-    <label for="addParticipantInput">Enter e-mail address for a hearing participant</label>
-    <input #addParticipantInput  id="addParticipantInput" type="text"/>
-    <button (click)="addParticipant(addParticipantInput.value); addParticipantInput.value = ''">Add</button>
-
-  <h3 *ngIf="participants.length">Hearing Participants</h3>
-  <ul>
-    <li *ngFor="let p of participants;">{{p}}</li>
-  </ul>
-
-  <button (click)="createSession()">Create Hearing</button>
+  <br>
+  <div class="grid-row">
+    <button class="button" (click)="createSession()">Create Hearing</button>
+  </div>
 </div>
 
 <div *ngIf="sessionId">
-  <h1>Hearing Created!</h1>
+  <h1 class="heading-large">Hearing Created!</h1>
 
   <a routerLink="/" routerLinkActive="active" [queryParams]="{id: sessionId}">Go to hearing</a>
+  <br>
   <a href="{{buildMailLink()}}">E-mail link to participants</a>
 
 </div>

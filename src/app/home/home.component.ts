@@ -35,12 +35,10 @@ export class HomeComponent implements OnInit {
     this.subscribed = false;
     this.route.queryParamMap.subscribe(params => {
       this.sessionId = params.get('id');
-      this.loadHearingDetails();
-      this.subscribe();
+      this.loadHearingDetails().then(() => {
+        this.subscribe();
+      });
     });
-    // Store local reference to Observable
-    // for use with template ( | async )
-
   }
 
   public subscribe() {
@@ -99,8 +97,12 @@ export class HomeComponent implements OnInit {
   }
 
   private loadHearingDetails() {
-    return this.http.get<any>(`/icp/sessions/${this.sessionId}`).subscribe(resp => {
-      this.hearingDetails = resp;
+    return new Promise((resolve, reject) => {
+      this.http.get<any>(`/icp/sessions/${this.sessionId}`).subscribe(resp => {
+        this.hearingDetails = resp;
+        this.currentDocument = this.hearingDetails.documents[0]
+        resolve();
+      }, reject);
     });
   }
 
