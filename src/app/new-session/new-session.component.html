@@ -6,7 +6,10 @@
   <div class="grid-row">
     <h3 *ngIf="documents.length" class="heading-small">Hearing Documents</h3>
     <ul>
-      <li class="column-full" *ngFor="let d of documents;">{{d}}</li>
+      <li class="column-full" *ngFor="let d of documents;">
+        <h4>{{d.title}}</h4>
+        <img src="{{d.thumb}}"/>
+      </li>
     </ul>
   </div>
   <div class="grid-row">

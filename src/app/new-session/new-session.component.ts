@@ -11,15 +11,28 @@ export class NewSessionComponent implements OnInit {
 
   participants: string[] = [];
   private sessionId: string;
-  private documents: string[];
+  private documents = [];
 
   constructor(private http: HttpClient,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
-      this.documents = params.getAll("documents");
+      const documentUrls = params.getAll("documents");
+      Promise.all(documentUrls.map(url => {return this.http.get<any>(this.fixDmUrl(url)).toPromise()})).then(docs => {
+        this.documents = docs.map(doc => {
+          return {
+            thumb: this.fixDmUrl(doc._links.thumbnail.href),
+            url: this.fixDmUrl(doc._links.self.href),
+            title: doc.originalDocumentName
+          }
+        })
+      })
     })
+  }
+
+  private fixDmUrl(url) {
+    return url.replace(new RegExp('.*(documents/.*)'), '/demproxy/dm/$1');
   }
 
   addParticipant(participant: string) {
