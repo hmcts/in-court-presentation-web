@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
+import {DmDocDataService} from '../dm-doc-data.service';
 
 @Component({
   selector: 'app-new-session',
@@ -14,25 +15,16 @@ export class NewSessionComponent implements OnInit {
   private documents = [];
 
   constructor(private http: HttpClient,
+              private docDataService: DmDocDataService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
       const documentUrls = params.getAll("documents");
-      Promise.all(documentUrls.map(url => {return this.http.get<any>(this.fixDmUrl(url)).toPromise()})).then(docs => {
-        this.documents = docs.map(doc => {
-          return {
-            thumb: this.fixDmUrl(doc._links.thumbnail.href),
-            url: this.fixDmUrl(doc._links.self.href),
-            title: doc.originalDocumentName
-          }
-        })
-      })
+      this.docDataService.getDataFromUrls(documentUrls).subscribe((docs) => {
+        this.documents = docs;
+      });
     })
-  }
-
-  private fixDmUrl(url) {
-    return url.replace(new RegExp('.*(documents/.*)'), '/demproxy/dm/$1');
   }
 
   addParticipant(participant: string) {
@@ -43,7 +35,7 @@ export class NewSessionComponent implements OnInit {
     this.http.post<any>("/icp/sessions", {
       description: "",
       dateOfHearing: new Date(),
-      documents: this.documents,
+      documents: this.documents.map(doc => doc.url),
       participants: this.participants
     }, {
       observe: 'response'

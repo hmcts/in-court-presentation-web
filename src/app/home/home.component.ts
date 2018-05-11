@@ -5,6 +5,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
+import {DmDocDataService} from '../dm-doc-data.service';
 
 @Component({
     selector: 'app-home',
@@ -25,9 +26,11 @@ export class HomeComponent implements OnInit {
   private hearingDetails: any;
   private currentDocumentAndPage: any;
   private presenting: boolean;
+  private documents = [];
 
   constructor(private stompService: StompService,
               private http: HttpClient,
+              private docDataService: DmDocDataService,
               private route: ActivatedRoute) {
   }
 
@@ -100,8 +103,11 @@ export class HomeComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.http.get<any>(`/icp/sessions/${this.sessionId}`).subscribe(resp => {
         this.hearingDetails = resp;
-        this.currentDocument = this.hearingDetails.documents[0]
-        resolve();
+        this.currentDocument = this.hearingDetails.documents[0];
+        this.docDataService.getDataFromUrls(this.hearingDetails.documents).subscribe(docs => {
+          this.documents = docs;
+          resolve();
+        });
       }, reject);
     });
   }

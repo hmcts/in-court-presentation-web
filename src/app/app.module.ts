@@ -13,6 +13,7 @@ import { EmViewerModule } from 'em-viewer-web';
 import {StompConfig, StompService} from '@stomp/ng2-stompjs';
 import * as SockJS from "sockjs-client";
 import { NewSessionComponent } from './new-session/new-session.component';
+import {DmDocDataService} from './dm-doc-data.service';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -59,6 +60,7 @@ const stompConfig: StompConfig = {
       EmViewerModule
   ],
   providers: [
+    DmDocDataService,
     StompService,
     {
       provide: StompConfig,

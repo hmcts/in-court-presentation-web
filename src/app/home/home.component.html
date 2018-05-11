@@ -1,4 +1,4 @@
-<div *ngIf="hearingDetails && hearingDetails.documents" class="grid-row">
+<div *ngIf="hearingDetails.documents" class="grid-row">
   <div class="column-two-thirds">
     <app-em-viewer *ngIf="currentDocument" [url]="currentDocument" [page]="page" (pageChanged)="pageChange($event)"></app-em-viewer>
   </div>
@@ -7,9 +7,9 @@
     <legend>
       <h3 class="heading-medium">Which document would you like to see?</h3>
     </legend>
-    <div *ngFor="let d of hearingDetails.documents" class="multiple-choice">
-      <input type="radio" name="document" class="multiple-choice" [checked]="currentDocument === d" (change)="onDocumentChange(d)" [value]="d" />
-      <label>{{d}}</label>
+    <div *ngFor="let d of documents" class="multiple-choice">
+      <input type="radio" name="document" class="multiple-choice" [checked]="currentDocument === d.url" (change)="onDocumentChange(d.url)" [value]="d.url" />
+      <label>{{d.title}}</label>
     </div>
   </div>
   <br>
