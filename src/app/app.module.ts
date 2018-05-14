@@ -14,6 +14,7 @@ import {StompConfig, StompService} from '@stomp/ng2-stompjs';
 import * as SockJS from "sockjs-client";
 import { NewSessionComponent } from './new-session/new-session.component';
 import {DmDocDataService} from './dm-doc-data.service';
+import { ParticipantsComponent } from './participants/participants.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -29,7 +30,7 @@ const stompConfig: StompConfig = {
   // Typical keys: login, passcode, host
   headers: {
     login: 'guest',
-    passcode: 'guest'
+    passcode: 'guest',
   },
 
   // How often to heartbeat?
@@ -49,7 +50,8 @@ const stompConfig: StompConfig = {
   declarations: [
     AppComponent,
     HomeComponent,
-    NewSessionComponent
+    NewSessionComponent,
+    ParticipantsComponent
   ],
   imports: [
       BrowserModule.withServerTransition({ appId: 'jui' }),

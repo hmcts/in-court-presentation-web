@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {StompService} from '@stomp/ng2-stompjs';
 import {Message} from '@stomp/stompjs';
 import {Subscription} from 'rxjs/Subscription';
@@ -19,14 +19,15 @@ export class HomeComponent implements OnInit {
   public page = 1;
 
   public subscribed: boolean;
-  public following = true;
+  public following = false;
+  private presenting = false;
   private sessionId: string;
   private subscription: Subscription;
   private messages: Observable<Message>;
   private hearingDetails: any;
   private currentDocumentAndPage: any;
-  private presenting: boolean;
   private documents = [];
+  private name: string;
 
   constructor(private stompService: StompService,
               private http: HttpClient,
@@ -56,9 +57,13 @@ export class HomeComponent implements OnInit {
     this.subscription = this.messages.subscribe(this.onNext);
 
     this.subscribed = true;
+
   }
 
+  @HostListener('window:beforeunload', [ '$event' ])
   public unsubscribe() {
+    this.stompService.publish(`/icp/participants/${this.sessionId}`,
+      `{"name": "${this.name}", "status": "DISCONNECTED", "sessionId": "${this.sessionId}"}`);
     if (!this.subscribed) {
       return;
     }
@@ -128,9 +133,22 @@ export class HomeComponent implements OnInit {
       this.currentDocument = this.currentDocumentAndPage.document;
       this.page = this.currentDocumentAndPage.page;
     }
+    if (this.following) {
+      this.stompService.publish(`/icp/participants/${this.sessionId}`,
+        `{"name": "${this.name}", "status": "FOLLOWING", "sessionId": "${this.sessionId}"}`);
+    } else {
+      this.stompService.publish(`/icp/participants/${this.sessionId}`,
+        `{"name": "${this.name}", "status": "CONNECTED", "sessionId": "${this.sessionId}"}`);
+    }
   }
 
   setPresenting(checked: boolean) {
     this.presenting = checked;
+  }
+
+  addName(name: string) {
+    this.name = name;
+    this.stompService.publish(`/icp/participants/${this.sessionId}`,
+      `{"name": "${this.name}", "status": "CONNECTED", "sessionId": "${this.sessionId}"}`);
   }
 }

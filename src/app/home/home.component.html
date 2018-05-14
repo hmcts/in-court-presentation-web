@@ -1,4 +1,4 @@
-<div *ngIf="hearingDetails.documents" class="grid-row">
+<div *ngIf="hearingDetails && hearingDetails.documents" class="grid-row">
   <div class="column-two-thirds">
     <app-em-viewer *ngIf="currentDocument" [url]="currentDocument" [page]="page" (pageChanged)="pageChange($event)"></app-em-viewer>
   </div>
@@ -13,18 +13,23 @@
     </div>
   </div>
   <br>
-  <div class="grid-row" *ngIf="isConnected()">
+  <div class="grid-row" *ngIf="!name">
+    <input #addNameInput name="name" (change)="addName(addNameInput.value)" placeholder="Please type your name and hit return" />
+  </div>
+  <div class="grid-row" *ngIf="isConnected() && name">
     <div class="multiple-choice">
       <input #presentingCheckbox type="checkbox" class="multiple-choice" (change)="setPresenting(presentingCheckbox.checked)" />
       <label>Presenting to followers</label>
     </div>
     <div class="multiple-choice">
-      <input #followingCheckbox type="checkbox"  (change)="setFollowing(followingCheckbox.checked)" checked />
+      <input #followingCheckbox type="checkbox" (change)="setFollowing(followingCheckbox.checked)" />
       <label *ngIf="!presenting">Following the presenter</label>
     </div>
   </div>
   <div *ngIf="!isConnected()">
     <h3 class="heading-medium">Waiting to connect to server...</h3>
   </div>
+  <app-participants *ngIf="isConnected() && name && presenting" [sessionId]="sessionId" [name]="name"></app-participants>
+
   </div>
 </div>

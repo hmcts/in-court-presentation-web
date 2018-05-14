@@ -1,0 +1,5 @@
+<ul>
+  <li class="column-full" *ngFor="let p of participants;">
+    <span *ngIf="p.status !== 'DISCONNECTED' && p.name !== name">{{p.name}} is {{p.status}}</span>
+  </li>
+</ul>
