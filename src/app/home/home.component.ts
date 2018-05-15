@@ -1,11 +1,37 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {StompService} from '@stomp/ng2-stompjs';
+import {StompConfig, StompService} from '@stomp/ng2-stompjs';
 import {Message} from '@stomp/stompjs';
 import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {DmDocDataService} from '../dm-doc-data.service';
+import * as SockJS from "sockjs-client";
+
+const stompConfig: StompConfig = {
+  // Which server?
+  // url: 'ws://127.0.0.1:15674/ws',
+  url: () => {return new SockJS('/icp/ws') as WebSocket;},
+
+  // Headers
+  // Typical keys: login, passcode, host
+  headers: {
+    login: 'guest',
+    passcode: 'guest',
+  },
+
+  // How often to heartbeat?
+  // Interval in milliseconds, set to 0 to disable
+  heartbeat_in: 0, // Typical value 0 - disabled
+  heartbeat_out: 20000, // Typical value 20000 - every 20 seconds
+  // Wait in milliseconds before attempting auto reconnect
+  // Set to 0 to disable
+  // Typical value 5000 (5 seconds)
+  reconnect_delay: 5000,
+
+  // Will log diagnostics on console
+  debug: true
+};
 
 @Component({
     selector: 'app-home',
@@ -28,8 +54,9 @@ export class HomeComponent implements OnInit {
   private currentDocumentAndPage: any;
   private documents = [];
   private name: string;
+  private stompService: StompService;
 
-  constructor(private stompService: StompService,
+  constructor(
               private http: HttpClient,
               private docDataService: DmDocDataService,
               private route: ActivatedRoute) {
@@ -39,8 +66,10 @@ export class HomeComponent implements OnInit {
     this.subscribed = false;
     this.route.queryParamMap.subscribe(params => {
       this.sessionId = params.get('id');
+      stompConfig.headers.sessionId = this.sessionId;
+      this.stompService = new StompService(stompConfig);
       this.loadHearingDetails().then(() => {
-        this.subscribe();
+        // this.subscribe();
       });
     });
   }
@@ -62,8 +91,6 @@ export class HomeComponent implements OnInit {
 
   @HostListener('window:beforeunload', [ '$event' ])
   public unsubscribe() {
-    this.stompService.publish(`/icp/participants/${this.sessionId}`,
-      `{"name": "${this.name}", "status": "DISCONNECTED", "sessionId": "${this.sessionId}"}`);
     if (!this.subscribed) {
       return;
     }
@@ -134,11 +161,9 @@ export class HomeComponent implements OnInit {
       this.page = this.currentDocumentAndPage.page;
     }
     if (this.following) {
-      this.stompService.publish(`/icp/participants/${this.sessionId}`,
-        `{"name": "${this.name}", "status": "FOLLOWING", "sessionId": "${this.sessionId}"}`);
+      this.subscribe();
     } else {
-      this.stompService.publish(`/icp/participants/${this.sessionId}`,
-        `{"name": "${this.name}", "status": "CONNECTED", "sessionId": "${this.sessionId}"}`);
+      this.unsubscribe();
     }
   }
 

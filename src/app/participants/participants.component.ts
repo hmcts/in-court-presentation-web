@@ -17,13 +17,16 @@ export class ParticipantsComponent implements OnInit {
 
   @Input()
   name: string;
+
+  @Input()
+  stompService: StompService;
+
   private subscribed: boolean;
   private messages: Observable<Message>;
   private subscription: Subscription;
   private participants = [];
 
-  constructor(private stompService: StompService,
-              private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
     this.subscribe();

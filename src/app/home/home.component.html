@@ -29,7 +29,7 @@
   <div *ngIf="!isConnected()">
     <h3 class="heading-medium">Waiting to connect to server...</h3>
   </div>
-  <app-participants *ngIf="isConnected() && name && presenting" [sessionId]="sessionId" [name]="name"></app-participants>
+  <app-participants *ngIf="isConnected() && name && presenting" [sessionId]="sessionId" [name]="name" [stompService]="stompService"></app-participants>
 
   </div>
 </div>
