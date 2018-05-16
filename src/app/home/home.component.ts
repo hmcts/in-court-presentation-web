@@ -9,6 +9,7 @@ import {DmDocDataService} from '../dm-doc-data.service';
 import * as SockJS from "sockjs-client";
 import {SidebarComponent} from '../sidebar/sidebar.component';
 import {HearingDataService} from '../hearing-data.service';
+import {UpdateService} from '../update.service';
 
 const stompConfig: StompConfig = {
   // Which server?
@@ -53,13 +54,12 @@ export class HomeComponent implements OnInit {
   private stompService: StompService;
 
   private subscribed: boolean;
-  private subscription: Subscription;
-  private messages: Observable<Message>;
 
   @ViewChild(SidebarComponent)
   public sidebar: SidebarComponent;
 
   constructor(private hearingDataService: HearingDataService,
+              private updateService: UpdateService,
               private route: ActivatedRoute) {
   }
 
@@ -69,28 +69,18 @@ export class HomeComponent implements OnInit {
       this.sessionId = params.get('id');
       stompConfig.headers.sessionId = this.sessionId;
       this.stompService = new StompService(stompConfig);
+      this.updateService.connect(this.sessionId);
       this.loadHearingDetails();
     });
   }
 
   public subscribe() {
-    if (this.subscribed || !this.sessionId) {
-      return;
-    }
-    this.messages = this.stompService.subscribe(`/topic/screen-change/${this.sessionId}`);
-    this.subscription = this.messages.subscribe(this.onNext);
-    this.subscribed = true;
+    this.updateService.subscribeToUpdates().subscribe(this.onNext);
   }
 
   @HostListener('window:beforeunload', [ '$event' ])
   public unsubscribe() {
-    if (!this.subscribed) {
-      return;
-    }
-    this.subscription.unsubscribe();
-    this.subscription = null;
-    this.messages = null;
-    this.subscribed = false;
+    this.updateService.unsubscribe();
   }
 
   ngOnDestroy() {
@@ -100,15 +90,11 @@ export class HomeComponent implements OnInit {
   public pageChange(page: number) {
     this.page = page;
     if (this.sidebar.presenting) {
-      this.stompService.publish(`/icp/screen-change/${this.sessionId}`,
-        `{"page":  ${page}, "document": "${this.currentDocument}"}`);
+      this.updateService.updateDocument(page, this.currentDocument);
     }
   }
 
-  onNext = (message: Message) => {
-    // Log it to the console
-    console.log(message);
-    const update = JSON.parse(message.body);
+  onNext = (update: any) => {
     this.currentDocumentAndPage = update;
     if (this.sidebar.following && !this.sidebar.presenting) {
       this.currentDocument = update.document;
