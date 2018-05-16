@@ -1,27 +1,26 @@
-# Jui
+# In Court Presentation Front End (Prototype)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
+Currently when court attendees all need to look at a particular document they all have to sift through a pile 
+of paper documents to find the correct one. These piles can become out of order and differences in printing may
+mean that page 443 for one person is page 444 for another which can lead to confusion and waste time.
 
-## Development server
+This project is looking to digitise this process using the existing 
+[HMCTS Document Management Store](www.github.com/hmcts/document-management-store-api) and 
+[Document Viewer](www.github.com/hmcts/em-viewer-web).  
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+A primary user can choose a document and initiate a new in court presentation session. This will generate a URL 
+for the session that can be shared out to other users in the court room. Users can then log in and join the session.
+Any changes to the primary user's view of the document such as page changes are then shared out to all users in the
+session.
 
-## Code scaffolding
+### Status
+Currently the In Court Presentation project is in concept. This is a prototype front end built to show stakeholders
+the basic flow and get to grips with new technical challenges. 
+As such it does not reflect the final project and does not include some fairly important elements.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+The Github repository for the In Court Presentation API prototype can be found at 
+[https://github.com/hmcts/rpa-in-court-presentation-api](https://github.com/hmcts/rpa-in-court-presentation-api).
 
-## Build
+### This repo
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+The front end is built using Angular 6. It communicates to the API layer using REST and Websockets.  
