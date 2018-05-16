@@ -1,4 +1,4 @@
-<div *ngIf="hearingDetails && hearingDetails.documents" class="grid-row">
+<div *ngIf="documents.length" class="grid-row">
   <app-em-viewer class="column-two-thirds" *ngIf="currentDocument"
                [url]="currentDocument"
                [page]="page"

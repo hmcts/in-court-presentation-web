@@ -8,6 +8,7 @@ import {HttpClient} from '@angular/common/http';
 import {DmDocDataService} from '../dm-doc-data.service';
 import * as SockJS from "sockjs-client";
 import {SidebarComponent} from '../sidebar/sidebar.component';
+import {HearingDataService} from '../hearing-data.service';
 
 const stompConfig: StompConfig = {
   // Which server?
@@ -48,7 +49,6 @@ export class HomeComponent implements OnInit {
   private documents = [];
   private sessionId: string;
 
-  private hearingDetails: any;
   private currentDocumentAndPage: any;
   private stompService: StompService;
 
@@ -59,9 +59,7 @@ export class HomeComponent implements OnInit {
   @ViewChild(SidebarComponent)
   public sidebar: SidebarComponent;
 
-  constructor(
-              private http: HttpClient,
-              private docDataService: DmDocDataService,
+  constructor(private hearingDataService: HearingDataService,
               private route: ActivatedRoute) {
   }
 
@@ -119,13 +117,10 @@ export class HomeComponent implements OnInit {
   };
 
   private loadHearingDetails() {
-      this.http.get<any>(`/icp/sessions/${this.sessionId}`).subscribe(resp => {
-        this.hearingDetails = resp;
-        this.currentDocument = this.hearingDetails.documents[0];
-        this.docDataService.getDataFromUrls(this.hearingDetails.documents).subscribe(docs => {
-          this.documents = docs;
-        });
-      });
+    this.hearingDataService.loadHearingDetails(this.sessionId).subscribe(docs => {
+      this.documents = docs;
+      this.currentDocument = docs[0].url;
+    });
   }
 
   onDocumentChange(document: string) {
