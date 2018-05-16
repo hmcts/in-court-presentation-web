@@ -1,35 +1,13 @@
 <div *ngIf="hearingDetails && hearingDetails.documents" class="grid-row">
-  <div class="column-two-thirds">
-    <app-em-viewer *ngIf="currentDocument" [url]="currentDocument" [page]="page" (pageChanged)="pageChange($event)"></app-em-viewer>
-  </div>
-  <div class="column-one-third">
-  <div class="grid-row" *ngIf="hearingDetails.documents.length > 1">
-    <legend>
-      <h3 class="heading-medium">Which document would you like to see?</h3>
-    </legend>
-    <div *ngFor="let d of documents" class="multiple-choice">
-      <input type="radio" name="document" class="multiple-choice" [checked]="currentDocument === d.url" (change)="onDocumentChange(d.url)" [value]="d.url" />
-      <label>{{d.title}}</label>
-    </div>
-  </div>
-  <br>
-  <div class="grid-row" *ngIf="!name">
-    <input #addNameInput name="name" (change)="addName(addNameInput.value)" placeholder="Please type your name and hit return" />
-  </div>
-  <div class="grid-row" *ngIf="isConnected() && name">
-    <div class="multiple-choice">
-      <input #presentingCheckbox type="checkbox" class="multiple-choice" (change)="setPresenting(presentingCheckbox.checked)" />
-      <label>Presenting to followers</label>
-    </div>
-    <div class="multiple-choice">
-      <input #followingCheckbox type="checkbox" (change)="setFollowing(followingCheckbox.checked)" />
-      <label *ngIf="!presenting">Following the presenter</label>
-    </div>
-  </div>
-  <div *ngIf="!isConnected()">
-    <h3 class="heading-medium">Waiting to connect to server...</h3>
-  </div>
-  <app-participants *ngIf="isConnected() && name && presenting" [sessionId]="sessionId" [name]="name" [stompService]="stompService"></app-participants>
-
-  </div>
+  <app-em-viewer class="column-two-thirds" *ngIf="currentDocument"
+               [url]="currentDocument"
+               [page]="page"
+               (pageChanged)="pageChange($event)"></app-em-viewer>
+  <app-sidebar class="column-one-third"
+               [stompService]="stompService"
+               [sessionId]="sessionId"
+               [documents]="documents"
+               (documentChanged)="onDocumentChange($event)"
+               (followingChanged)="setFollowing($event)">
+  </app-sidebar>
 </div>

@@ -15,6 +15,7 @@ import * as SockJS from "sockjs-client";
 import { NewSessionComponent } from './new-session/new-session.component';
 import {DmDocDataService} from './dm-doc-data.service';
 import { ParticipantsComponent } from './participants/participants.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -28,7 +29,8 @@ const routes: Routes = [
     AppComponent,
     HomeComponent,
     NewSessionComponent,
-    ParticipantsComponent
+    ParticipantsComponent,
+    SidebarComponent
   ],
   imports: [
       BrowserModule.withServerTransition({ appId: 'jui' }),
