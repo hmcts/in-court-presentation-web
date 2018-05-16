@@ -116,7 +116,7 @@ export class HomeComponent implements OnInit {
       this.currentDocument = update.document;
       this.page = update.page;
     }
-  }
+  };
 
   private loadHearingDetails() {
       this.http.get<any>(`/icp/sessions/${this.sessionId}`).subscribe(resp => {
