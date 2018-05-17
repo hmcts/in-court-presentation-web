@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 import {Message} from '@stomp/stompjs';
 import * as SockJS from "sockjs-client";
+import {StompServiceFactoryService} from './stomp-service-factory.service';
 
 const stompConfig: StompConfig = {
   // Which server?
@@ -40,26 +41,26 @@ export class UpdateService {
   private messages: Observable<Message>;
   private sessionId: string;
 
-  constructor() {
+  constructor(private stompServiceFactory: StompServiceFactoryService) {
 
   }
 
   public connect(sessionId: string) {
-    this.sessionId = sessionId;
-    stompConfig.headers.sessionId = this.sessionId;
-    this.stompService = new StompService(stompConfig);
+    if (!this.stompService) {
+      this.sessionId = sessionId;
+      this.stompService = this.stompServiceFactory.get(sessionId);
+    }
   }
 
   public subscribeToUpdates(): Observable<any> {
     return new Observable<any>(observer => {
       if (this.subscribed || !this.sessionId) {
-        observer.complete();
+        return;
       }
 
       this.messages = this.stompService.subscribe(`/topic/screen-change/${this.sessionId}`);
       this.subscription = this.messages.subscribe(message => {
         observer.next(JSON.parse(message.body));
-        observer.complete();
       });
       this.subscribed = true;
     });
@@ -79,6 +80,15 @@ export class UpdateService {
   public updateDocument(page: number, document: string) {
       this.stompService.publish(`/icp/screen-change/${this.sessionId}`,
         `{"page":  ${page}, "document": "${document}"}`);
+  }
+
+  addName(name: string) {
+    this.stompService.publish(`/icp/participants/${this.sessionId}`,
+      `{"name": "${name}", "status": "CONNECTED", "sessionId": "${this.sessionId}"}`);
+  }
+
+  public isConnected() {
+    return this.stompService.connected();
   }
 
 }

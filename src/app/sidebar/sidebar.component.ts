@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {StompService} from '@stomp/ng2-stompjs';
+import {UpdateService} from '../update.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,8 +13,6 @@ export class SidebarComponent implements OnInit {
   public documents: any[];
   @Input()
   public sessionId: string;
-  @Input()
-  stompService: StompService;
 
   @Output()
   public followingChanged = new EventEmitter<boolean>();
@@ -24,15 +23,15 @@ export class SidebarComponent implements OnInit {
   public presenting = false;
   private name: string;
 
-  constructor() { }
+  constructor(private updateService: UpdateService) { }
 
   ngOnInit() {
+    this.updateService.connect(this.sessionId);
   }
 
   onDocumentChange(document: string) {
     if (this.presenting){
-      this.stompService.publish(`/icp/screen-change/${this.sessionId}`,
-        `{"page":  1, "document": "${document}"}`);
+      this.updateService.updateDocument(1, document);
     }
     this.documentChanged.emit(document);
   }
@@ -48,12 +47,11 @@ export class SidebarComponent implements OnInit {
 
   addName(name: string) {
     this.name = name;
-    this.stompService.publish(`/icp/participants/${this.sessionId}`,
-      `{"name": "${this.name}", "status": "CONNECTED", "sessionId": "${this.sessionId}"}`);
+    this.updateService.addName(name);
   }
 
   public isConnected() {
-    return this.stompService.connected();
+    return this.updateService.isConnected();
   }
 
 }

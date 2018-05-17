@@ -4,7 +4,6 @@
                [page]="page"
                (pageChanged)="pageChange($event)"></app-em-viewer>
   <app-sidebar class="column-one-third"
-               [stompService]="stompService"
                [sessionId]="sessionId"
                [documents]="documents"
                (documentChanged)="onDocumentChange($event)"

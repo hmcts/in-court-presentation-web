@@ -18,6 +18,8 @@ import { ParticipantsComponent } from './participants/participants.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import {HearingDataService} from './hearing-data.service';
 import {UpdateService} from './update.service';
+import {StompServiceFactoryService} from './stomp-service-factory.service';
+import {ParticipantsService} from './participants.service';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -45,7 +47,9 @@ const routes: Routes = [
   providers: [
     DmDocDataService,
     HearingDataService,
-    UpdateService
+    UpdateService,
+    StompServiceFactoryService,
+    ParticipantsService
     ],
   bootstrap: [AppComponent]
 })
