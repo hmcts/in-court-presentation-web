@@ -28,7 +28,7 @@ export class ParticipantsComponent implements OnInit {
     this.participantsService.connect(this.sessionId);
     this.subscribe();
     this.http.get<any[]>(`/icp/sessions/${this.sessionId}/participants`).subscribe(participants => {
-      this.participants = participants;
+      this.participants = participants.filter(this.filterParticipants());
     });
   }
 
@@ -36,8 +36,12 @@ export class ParticipantsComponent implements OnInit {
     this.participantsService.subscribeToParticipants().subscribe(this.onNext);
   }
 
-  onNext = (participants: any) => {
-    this.participants = participants;
+  onNext = (participants: any[]) => {
+    this.participants = participants.filter(this.filterParticipants());
   }
 
+  private filterParticipants() {
+    return p =>
+      p.name !== 'Anon' && p.name !== this.name && p.status !== 'DISCONNECTED';
+  }
 }

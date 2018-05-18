@@ -1,5 +1,11 @@
-<ul>
-  <li class="column-full" *ngFor="let p of participants;">
-    <span *ngIf="p.status !== 'DISCONNECTED' && p.name !== name && p.name !== 'Anon'">{{p.name}} is {{p.status}}</span>
-  </li>
-</ul>
+<div class="grid-row" *ngIf="participants.length">
+  <h3 class="heading-medium">Hearing Participants</h3>
+  <ul class="participants">
+    <li *ngFor="let p of participants;" class="participants__participant"
+        [ngClass]="{
+          'participants__participant--connected' : p.status === 'CONNECTED',
+          'participants__participant--following' : p.status === 'FOLLOWING'}">
+      <span>{{p.name}}</span>
+    </li>
+  </ul>
+</div>

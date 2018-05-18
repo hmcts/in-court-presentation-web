@@ -26,6 +26,6 @@
         <label *ngIf="!presenting">Following the presenter</label>
       </div>
     </div>
-    <app-participants *ngIf="presenting" [sessionId]="sessionId" [name]="name"></app-participants>
+    <app-participants class="column-full" *ngIf="presenting" [sessionId]="sessionId" [name]="name"></app-participants>
   </ng-template>
 </ng-template>

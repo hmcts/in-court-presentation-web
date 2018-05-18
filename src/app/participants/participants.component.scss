@@ -1,0 +1,17 @@
+.participants {
+  width: 80%;
+  border: black 1px solid;
+}
+
+.participants__participant {
+  padding: 2px;
+  color: white;
+}
+
+.participants__participant--connected {
+  background-color: crimson;
+}
+
+.participants__participant--following {
+  background-color: darkgreen;
+}
