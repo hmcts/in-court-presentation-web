@@ -8,7 +8,6 @@ export class DmDocDataService {
   constructor(private http: HttpClient) { }
 
   public getDataFromUrls(documentUrls: string[]): Observable<any> {
-
     return new Observable(observer => {
       Promise.all(this.getDocumentPromises(documentUrls)).then(docs => {
         observer.next(docs.map(doc => {
@@ -16,7 +15,7 @@ export class DmDocDataService {
             thumb: this.fixDmUrl(doc._links.thumbnail.href),
             url: this.fixDmUrl(doc._links.self.href),
             title: doc.originalDocumentName
-          }
+          };
         }));
         observer.complete();
       });
@@ -25,7 +24,7 @@ export class DmDocDataService {
 
   private getDocumentPromises(documentUrls: string[]) {
     return documentUrls.map(url => {
-      return this.convertToPromise(url)
+      return this.convertToPromise(url);
     });
   }
 

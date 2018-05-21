@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 
 @NgModule({
     imports: [
-        //Make sure the string matches
+        // Make sure the string matches
         BrowserModule.withServerTransition({
             appId: 'jui'
         }),

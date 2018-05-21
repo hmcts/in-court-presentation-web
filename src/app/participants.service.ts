@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {StompServiceFactoryService} from './stomp-service-factory.service';
 import {StompService} from '@stomp/ng2-stompjs';
 import {Observable} from 'rxjs/Observable';

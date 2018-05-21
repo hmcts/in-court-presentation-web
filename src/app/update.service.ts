@@ -3,13 +3,15 @@ import {StompConfig, StompService} from '@stomp/ng2-stompjs';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 import {Message} from '@stomp/stompjs';
-import * as SockJS from "sockjs-client";
+import * as SockJS from 'sockjs-client';
 import {StompServiceFactoryService} from './stomp-service-factory.service';
 
 const stompConfig: StompConfig = {
   // Which server?
   // url: 'ws://127.0.0.1:15674/ws',
-  url: () => {return new SockJS('/icp/ws') as WebSocket;},
+  url: () => {
+    return new SockJS('/icp/ws') as WebSocket;
+  },
 
   // Headers
   // Typical keys: login, passcode, host
@@ -66,7 +68,7 @@ export class UpdateService {
     });
   }
 
-  @HostListener('window:beforeunload', [ '$event' ])
+  @HostListener('window:beforeunload', ['$event'])
   public unsubscribe() {
     if (!this.subscribed) {
       return;
@@ -78,8 +80,8 @@ export class UpdateService {
   }
 
   public updateDocument(page: number, document: string) {
-      this.stompService.publish(`/icp/screen-change/${this.sessionId}`,
-        `{"page":  ${page}, "document": "${document}"}`);
+    this.stompService.publish(`/icp/screen-change/${this.sessionId}`,
+      `{"page":  ${page}, "document": "${document}"}`);
   }
 
   addName(name: string) {

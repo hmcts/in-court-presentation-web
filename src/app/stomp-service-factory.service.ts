@@ -1,26 +1,29 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {StompConfig, StompService} from '@stomp/ng2-stompjs';
-import * as SockJS from "sockjs-client";
+import * as SockJS from 'sockjs-client';
 
 @Injectable()
 export class StompServiceFactoryService {
 
   private services = {};
 
-  constructor() { }
+  constructor() {
+  }
 
   public get(sessionId: string): StompService {
     if (!this.services[sessionId]) {
       this.services[sessionId] = new StompService(this.config(sessionId));
     }
-    return this.services[sessionId]
+    return this.services[sessionId];
   }
 
   private config(sessionId: string): StompConfig {
     return {
       // Which server?
       // url: 'ws://127.0.0.1:15674/ws',
-      url: () => {return new SockJS('/icp/ws') as WebSocket;},
+      url: () => {
+        return new SockJS('/icp/ws') as WebSocket;
+      },
 
       // Headers
       // Typical keys: login, passcode, host

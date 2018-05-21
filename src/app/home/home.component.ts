@@ -1,12 +1,7 @@
-import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StompConfig, StompService} from '@stomp/ng2-stompjs';
-import {Message} from '@stomp/stompjs';
-import {Subscription} from 'rxjs/Subscription';
-import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
-import {DmDocDataService} from '../dm-doc-data.service';
-import * as SockJS from "sockjs-client";
+import * as SockJS from 'sockjs-client';
 import {SidebarComponent} from '../sidebar/sidebar.component';
 import {HearingDataService} from '../hearing-data.service';
 import {UpdateService} from '../update.service';
@@ -14,7 +9,7 @@ import {UpdateService} from '../update.service';
 const stompConfig: StompConfig = {
   // Which server?
   // url: 'ws://127.0.0.1:15674/ws',
-  url: () => {return new SockJS('/icp/ws') as WebSocket;},
+  url: () => new SockJS('/icp/ws') as WebSocket,
 
   // Headers
   // Typical keys: login, passcode, host
@@ -39,11 +34,11 @@ const stompConfig: StompConfig = {
 const baseUrl = '/demproxy/dm/documents';
 
 @Component({
-    selector: 'app-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.scss']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   private currentDocument: string;
   private page = 1;
@@ -78,7 +73,7 @@ export class HomeComponent implements OnInit {
     this.updateService.subscribeToUpdates().subscribe(this.onNext);
   }
 
-  @HostListener('window:beforeunload', [ '$event' ])
+  @HostListener('window:beforeunload', ['$event'])
   public unsubscribe() {
     this.updateService.unsubscribe();
   }
@@ -100,7 +95,7 @@ export class HomeComponent implements OnInit {
       this.currentDocument = update.document;
       this.page = update.page;
     }
-  };
+  }
 
   private loadHearingDetails() {
     this.hearingDataService.loadHearingDetails(this.sessionId).subscribe(docs => {
@@ -115,7 +110,7 @@ export class HomeComponent implements OnInit {
   }
 
   setFollowing(following) {
-    if(this.sidebar.following && this.currentDocumentAndPage) {
+    if (this.sidebar.following && this.currentDocumentAndPage) {
       this.currentDocument = this.currentDocumentAndPage.document;
       this.page = this.currentDocumentAndPage.page;
     }

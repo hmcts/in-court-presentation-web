@@ -1,7 +1,7 @@
-import { Bob } from './index';
+import {Bob} from './index';
 
 describe('a test', () => {
-   it('should be a function', () => {
-        console.log('sdfsdfsdfsdf')
-   });
+  it('should be a function', () => {
+    console.log('sdfsdfsdfsdf');
+  });
 });

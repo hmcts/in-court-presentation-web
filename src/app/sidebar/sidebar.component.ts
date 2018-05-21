@@ -23,14 +23,15 @@ export class SidebarComponent implements OnInit {
   public presenting = false;
   private name: string;
 
-  constructor(private updateService: UpdateService) { }
+  constructor(private updateService: UpdateService) {
+  }
 
   ngOnInit() {
     this.updateService.connect(this.sessionId);
   }
 
   onDocumentChange(document: string) {
-    if (this.presenting){
+    if (this.presenting) {
       this.updateService.updateDocument(1, document);
     }
     this.documentChanged.emit(document);

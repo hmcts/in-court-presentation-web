@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {DmDocDataService} from '../dm-doc-data.service';
@@ -16,15 +16,16 @@ export class NewSessionComponent implements OnInit {
 
   constructor(private http: HttpClient,
               private docDataService: DmDocDataService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
-      const documentUrls = params.getAll("documents");
+      const documentUrls = params.getAll('documents');
       this.docDataService.getDataFromUrls(documentUrls).subscribe((docs) => {
         this.documents = docs;
       });
-    })
+    });
   }
 
   addParticipant(participant: string) {
@@ -32,8 +33,8 @@ export class NewSessionComponent implements OnInit {
   }
 
   createSession() {
-    this.http.post<any>("/icp/sessions", {
-      description: "",
+    this.http.post<any>('/icp/sessions', {
+      description: '',
       dateOfHearing: new Date(),
       documents: this.documents.map(doc => doc.url),
       participants: this.participants
@@ -46,6 +47,6 @@ export class NewSessionComponent implements OnInit {
   }
 
   buildMailLink() {
-    return `mailto:?bcc=${this.participants.join(',')}&subject=New%20Hearing&body=${document.location.origin}?id=${this.sessionId}`
+    return `mailto:?bcc=${this.participants.join(',')}&subject=New%20Hearing&body=${document.location.origin}?id=${this.sessionId}`;
   }
 }
