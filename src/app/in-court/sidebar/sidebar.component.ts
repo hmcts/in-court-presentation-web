@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StompService} from '@stomp/ng2-stompjs';
 import {UpdateService} from '../update.service';
 
 @Component({

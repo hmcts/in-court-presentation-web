@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {HomeComponent} from './home/home.component';
 import {ParticipantsService} from './participants.service';
 import {ParticipantsComponent} from './participants/participants.component';

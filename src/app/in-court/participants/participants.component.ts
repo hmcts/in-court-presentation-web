@@ -1,8 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {StompService} from '@stomp/ng2-stompjs';
-import {Message} from '@stomp/stompjs';
-import {Subscription} from 'rxjs/Subscription';
-import {Observable} from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';
 import {ParticipantsService} from '../participants.service';
 
