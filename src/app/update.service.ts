@@ -79,7 +79,7 @@ export class UpdateService {
     this.subscribed = false;
   }
 
-  public updateDocument(page: number, document: string) {
+  public broadcastDocumentChange(page: number, document: string) {
     this.stompService.publish(`/icp/screen-change/${this.sessionId}`,
       `{"page":  ${page}, "document": "${document}"}`);
   }

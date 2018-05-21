@@ -32,7 +32,7 @@ export class SidebarComponent implements OnInit {
 
   onDocumentChange(document: string) {
     if (this.presenting) {
-      this.updateService.updateDocument(1, document);
+      this.updateService.broadcastDocumentChange(1, document);
     }
     this.documentChanged.emit(document);
   }

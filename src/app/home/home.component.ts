@@ -1,37 +1,8 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {StompConfig, StompService} from '@stomp/ng2-stompjs';
 import {ActivatedRoute} from '@angular/router';
-import * as SockJS from 'sockjs-client';
 import {SidebarComponent} from '../sidebar/sidebar.component';
 import {HearingDataService} from '../hearing-data.service';
 import {UpdateService} from '../update.service';
-
-const stompConfig: StompConfig = {
-  // Which server?
-  // url: 'ws://127.0.0.1:15674/ws',
-  url: () => new SockJS('/icp/ws') as WebSocket,
-
-  // Headers
-  // Typical keys: login, passcode, host
-  headers: {
-    login: 'guest',
-    passcode: 'guest',
-  },
-
-  // How often to heartbeat?
-  // Interval in milliseconds, set to 0 to disable
-  heartbeat_in: 0, // Typical value 0 - disabled
-  heartbeat_out: 20000, // Typical value 20000 - every 20 seconds
-  // Wait in milliseconds before attempting auto reconnect
-  // Set to 0 to disable
-  // Typical value 5000 (5 seconds)
-  reconnect_delay: 5000,
-
-  // Will log diagnostics on console
-  debug: true
-};
-
-const baseUrl = '/demproxy/dm/documents';
 
 @Component({
   selector: 'app-home',
@@ -46,7 +17,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   private sessionId: string;
 
   private currentDocumentAndPage: any;
-  private stompService: StompService;
 
   private subscribed: boolean;
 
@@ -62,8 +32,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subscribed = false;
     this.route.queryParamMap.subscribe(params => {
       this.sessionId = params.get('id');
-      stompConfig.headers.sessionId = this.sessionId;
-      this.stompService = new StompService(stompConfig);
       this.updateService.connect(this.sessionId);
       this.loadHearingDetails();
     });
@@ -85,7 +53,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public pageChange(page: number) {
     this.page = page;
     if (this.sidebar.presenting) {
-      this.updateService.updateDocument(page, this.currentDocument);
+      this.updateService.broadcastDocumentChange(page, this.currentDocument);
     }
   }
 
