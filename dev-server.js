@@ -17,9 +17,6 @@ app.use(serviceTokenMiddleware);
 const dmProxy = require('./proxies/dm');
 dmProxy(app);
 
-
-
-
 // const bob = require('./lib/service-token');
 // bob();
 

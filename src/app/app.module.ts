@@ -7,31 +7,19 @@ import {RouterModule, Routes} from '@angular/router';
 import {AppComponent} from './app.component';
 import {isPlatformBrowser} from '@angular/common';
 import {AppRoutingModule} from './/app-routing.module';
-import {HomeComponent} from './home/home.component';
-import {EmViewerModule} from 'em-viewer-web';
+import {HomeComponent} from './in-court/home/home.component';
 import {NewSessionComponent} from './new-session/new-session.component';
-import {DmDocDataService} from './dm-doc-data.service';
-import {ParticipantsComponent} from './participants/participants.component';
-import {SidebarComponent} from './sidebar/sidebar.component';
-import {HearingDataService} from './hearing-data.service';
-import {UpdateService} from './update.service';
-import {StompServiceFactoryService} from './stomp-service-factory.service';
-import {ParticipantsService} from './participants.service';
+import {InCourtModule} from './in-court/in-court.module';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'new', component: NewSessionComponent }
 ];
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     NewSessionComponent,
-    ParticipantsComponent,
-    SidebarComponent
   ],
   imports: [
       BrowserModule.withServerTransition({ appId: 'jui' }),
@@ -39,15 +27,9 @@ const routes: Routes = [
       AppRoutingModule,
       RouterModule.forRoot(routes),
       HttpClientModule,
-      EmViewerModule
+      InCourtModule
   ],
-  providers: [
-    DmDocDataService,
-    HearingDataService,
-    UpdateService,
-    StompServiceFactoryService,
-    ParticipantsService
-    ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
-import {DmDocDataService} from '../dm-doc-data.service';
+import {DmDocDataService} from '../in-court/dm-doc-data.service';
 
 @Component({
   selector: 'app-new-session',
