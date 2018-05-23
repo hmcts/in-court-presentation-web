@@ -12,6 +12,8 @@ export class SidebarComponent implements OnInit {
   public documents: any[];
   @Input()
   public sessionId: string;
+  @Input()
+  private currentDocument: string;
 
   @Output()
   public followingChanged = new EventEmitter<boolean>();
@@ -54,4 +56,7 @@ export class SidebarComponent implements OnInit {
     return this.updateService.isConnected();
   }
 
+  isDocumentChecked(url: any) {
+    return url === this.currentDocument;
+  }
 }

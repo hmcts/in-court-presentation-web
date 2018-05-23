@@ -1,3 +1,4 @@
+<h1>In Court Presentation</h1>
 <div *ngIf="documents.length">
   <app-em-viewer class="column-two-thirds" *ngIf="currentDocument"
                [url]="currentDocument"
@@ -6,6 +7,7 @@
   <app-sidebar class="column-one-third"
                [sessionId]="sessionId"
                [documents]="documents"
+               [currentDocument]="currentDocument"
                (documentChanged)="onDocumentChange($event)"
                (followingChanged)="setFollowing($event)">
   </app-sidebar>

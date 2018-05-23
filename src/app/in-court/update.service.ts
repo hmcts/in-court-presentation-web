@@ -10,7 +10,7 @@ export class UpdateService {
 
   private stompService: StompService;
 
-  private subscribed: boolean;
+  public subscribed: boolean;
   private subscription: Subscription;
   private messages: Observable<Message>;
   private sessionId: string;

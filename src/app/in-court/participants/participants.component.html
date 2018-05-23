@@ -1,7 +1,7 @@
 <div class="grid-row" *ngIf="participants.length">
   <h3 class="heading-medium">Hearing Participants</h3>
   <ul class="participants">
-    <li *ngFor="let p of participants;" class="participants__participant"
+    <li *ngFor="let p of participants;" class="participants__participant" data-hook="icp-participants-participant"
         [ngClass]="{
           'participants__participant--connected' : p.status === 'CONNECTED',
           'participants__participant--following' : p.status === 'FOLLOWING'}">

@@ -1,9 +1,10 @@
-<div class="grid-row" *ngIf="documents.length > 1">
+<div class="grid-row documents" *ngIf="documents.length > 1">
   <legend>
     <h3 class="heading-medium">Which document would you like to see?</h3>
   </legend>
-  <div *ngFor="let d of documents" class="multiple-choice">
-    <input type="radio" name="document" class="multiple-choice" [checked]="currentDocument === d.url" (change)="onDocumentChange(d.url)" [value]="d.url" />
+  <div *ngFor="let d of documents" class="multiple-choice documents__document" data-hook="icp-sidebar-document">
+    <input type="radio" name="document" class="multiple-choice"
+           [checked]="isDocumentChecked(d.url)" (change)="onDocumentChange(d.url)" [value]="d.url" />
     <label>{{d.title}}</label>
   </div>
 </div>
@@ -13,16 +14,20 @@
 </div>
 <ng-template #connectedBlock>
   <div class="grid-row" *ngIf="!name; else withNameBlock">
-    <input #addNameInput name="name" (change)="addName(addNameInput.value)" placeholder="Please type your name and hit return" />
+    <input #addNameInput name="name" (change)="addName(addNameInput.value)"
+           placeholder="Please type your name and hit return"
+           data-hook="icp-sidebar-name"/>
   </div>
   <ng-template #withNameBlock>
     <div class="grid-row">
       <div class="multiple-choice">
-        <input #presentingCheckbox type="checkbox" class="multiple-choice" (change)="setPresenting(presentingCheckbox.checked)" />
+        <input #presentingCheckbox type="checkbox" class="multiple-choice" (change)="setPresenting(presentingCheckbox.checked)"
+               data-hook="icp-sidebar-presenting"/>
         <label>Presenting to followers</label>
       </div>
       <div class="multiple-choice">
-        <input #followingCheckbox type="checkbox" (change)="setFollowing(followingCheckbox.checked)" />
+        <input #followingCheckbox type="checkbox" (change)="setFollowing(followingCheckbox.checked)"
+               data-hook="icp-sidebar-following"/>
         <label *ngIf="!presenting">Following the presenter</label>
       </div>
     </div>
