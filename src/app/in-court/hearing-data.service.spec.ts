@@ -1,6 +1,6 @@
 import {TestBed, inject, async} from '@angular/core/testing';
 
-import { HearingDataService } from './hearing-data.service';
+import {HearingDataService} from './hearing-data.service';
 import {DmDocDataService} from './dm-doc-data.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {Observable} from 'rxjs/Observable';
@@ -14,6 +14,12 @@ const DOC_OBJECT = {
 
 const SESSION_ID = '123-123';
 
+class MockDmDocDataService {
+  public getDataFromUrls(urls: string[]): Observable<any> {
+    return Observable.of([DOC_OBJECT]);
+  }
+}
+
 describe('HearingDataService', () => {
 
   let httpMock: HttpTestingController;
@@ -22,7 +28,7 @@ describe('HearingDataService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [HearingDataService,{
+      providers: [HearingDataService, {
         provide: DmDocDataService, useClass: MockDmDocDataService
       }]
     });
@@ -53,13 +59,8 @@ describe('HearingDataService', () => {
     }));
 
     it('should contain docs', () => {
-      expect(hearingData).toEqual([DOC_OBJECT])
+      expect(hearingData).toEqual([DOC_OBJECT]);
     });
   });
 });
 
-class MockDmDocDataService {
-  public getDataFromUrls(urls: string[]): Observable<any> {
-    return Observable.of([DOC_OBJECT])
-  }
-}

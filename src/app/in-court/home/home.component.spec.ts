@@ -39,12 +39,43 @@ function getDocumentBody(documentName: string, documentUrl: string) {
   };
 }
 
+class MockStompService {
+  subscribe(queueName: string, headers?: StompHeaders): Observable<any> {
+    if (queueName.match(new RegExp('.*screen-change.*'))) {
+      return Observable.of({body: '{"document": "/demproxy/dm/documents/345", "page": 2}'});
+    }
+    if (queueName.match(new RegExp('.*participants.*'))) {
+      return Observable.of({body: '[{"name": "Sameer", "status": "CONNECTED"}]'});
+    }
+  }
+
+  publish() {
+
+  }
+
+  connected() {
+    return true;
+  }
+}
+
+class MockStompServiceFactoryService {
+  public get() {
+    return new MockStompService();
+  }
+}
+
+
+class ActivatedRouteMock {
+  public queryParamMap = Observable.of(convertToParamMap({
+    id: SESSION_ID
+  }));
+}
+
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
   let httpMock: HttpTestingController;
   let element: DebugElement;
-
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -157,35 +188,3 @@ describe('HomeComponent', () => {
   });
 });
 
-class MockStompServiceFactoryService {
-  public get() {
-    return new MockStompService();
-  }
-}
-
-class MockStompService {
-  subscribe(queueName: string, headers?: StompHeaders): Observable<any> {
-    if (queueName.match(new RegExp('.*screen-change.*'))) {
-      return Observable.of({body: '{"document": "/demproxy/dm/documents/345", "page": 2}'});
-    }
-    if (queueName.match(new RegExp('.*participants.*'))) {
-      return Observable.of({body: '[{"name": "Sameer", "status": "CONNECTED"}]'});
-    }
-  }
-
-  publish() {
-
-  }
-
-  connected() {
-    return true;
-  }
-}
-
-
-
-class ActivatedRouteMock {
-  public queryParamMap = Observable.of(convertToParamMap({
-    id: SESSION_ID
-  }));
-}

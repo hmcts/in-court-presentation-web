@@ -1,14 +1,29 @@
-import { TestBed, inject } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { UpdateService } from './update.service';
+import {UpdateService} from './update.service';
 import {StompServiceFactoryService} from './stomp-service-factory.service';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import {StompHeaders} from '@stomp/ng2-stompjs/src/stomp-headers';
-import {Message} from '@stomp/stompjs';
 
-var SESSION_ID = '123-123';
+const SESSION_ID = '123-123';
 
+class MockStompService {
+  subscribe(queueName: string, headers?: StompHeaders): Observable<any> {
+    return Observable.of({body: '{"document": "http://dm-store.com/documents/123-123-123", "page": 1}'});
+  }
+
+  connected() {
+    return true;
+  }
+}
+
+class MockStompServiceFactoryService {
+
+  public get(sessionId: string) {
+    return new MockStompService();
+  }
+}
 
 describe('UpdateService', () => {
   let service: UpdateService;
@@ -23,7 +38,7 @@ describe('UpdateService', () => {
 
   beforeEach(() => {
     service = TestBed.get(UpdateService);
-    service.connect(SESSION_ID)
+    service.connect(SESSION_ID);
   });
 
   it('should be created', () => {
@@ -39,7 +54,7 @@ describe('UpdateService', () => {
     beforeEach(() => {
       service.subscribeToUpdates().subscribe(u => {
         update = u;
-      })
+      });
     });
 
     it('should be subscribed', () => {
@@ -64,19 +79,3 @@ describe('UpdateService', () => {
   });
 });
 
-class MockStompServiceFactoryService {
-
-  public get(sessionId: string) {
-    return new MockStompService();
-  }
-}
-
-class MockStompService {
-  subscribe(queueName: string, headers?: StompHeaders): Observable<any> {
-    return Observable.of({body: '{"document": "http://dm-store.com/documents/123-123-123", "page": 1}'});
-  }
-
-  connected() {
-    return true;
-  }
-}
