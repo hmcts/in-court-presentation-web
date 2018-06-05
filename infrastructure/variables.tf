@@ -1,29 +1,9 @@
 variable "product" {
   type = "string"
-  default = "rpa"
-  description = "The name of your application"
 }
 
 variable "component" {
   type = "string"
-  default = "icp-w"
-  description = "The name of your application"
-}
-
-variable "app_name" {
-  default = "webapp"
-}
-
-variable "app_type" {
-  default = "web"
-}
-
-variable "s2s_service_name" {
-  default = "em_gw"
-}
-
-variable "capacity" {
-  default = "2"
 }
 
 variable "team_name" {
@@ -39,34 +19,36 @@ variable "location" {
   default = "UK South"
 }
 
-variable "vault_section" {
-  default = "test"
-}
-
 variable "env" {
   type = "string"
-  description = "(Required) The environment in which to deploy the application infrastructure.",
-  default = "saat"
 }
 
 variable "subscription" {
   type = "string"
 }
 
-variable "ilbIp"{
+variable "ilbIp"{}
 
-}
-
-variable "tenant_id" {
-
-}
+variable "tenant_id" {}
 
 variable "jenkins_AAD_objectId" {
   type                        = "string"
   description                 = "(Required) The Azure AD object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies."
 }
 
+////////////////////////////////////////////////
+//Addtional Vars ///////////////////////////////
+////////////////////////////////////////////////
+variable "capacity" {
+  default = "2"
+}
 
+////////////////////////////////////////////////
+// Endpoints
+////////////////////////////////////////////////
+variable "vault_section" {
+  default = "test"
+}
 
 
 ////////////////////////////////////////////////
@@ -82,4 +64,15 @@ variable "json_console_pretty_print" {
 
 variable "log_output" {
   default = "single"
+}
+
+////////////////////////////////////////////////
+// Toggle Features
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+// Addtional
+////////////////////////////////////////////////
+variable "s2s_service_name" {
+  default = "em_gw"
 }
