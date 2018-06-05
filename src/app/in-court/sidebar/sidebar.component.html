@@ -4,16 +4,16 @@
     <h3 class="heading-medium" *ngIf="presenting">Presenting</h3>
     <h3 class="heading-medium" *ngIf="following && !presenting">You are following the presenter</h3>
   </legend>
-  <div *ngFor="let d of documents" class="multiple-choice documents__document" data-hook="icp-sidebar-document">
+  <div *ngFor="let d of documents; let i = index" class="multiple-choice documents__document" data-hook="icp-sidebar-document">
     <input type="radio" name="document" class="multiple-choice"
            [checked]="isDocumentChecked(d.url)" (change)="onDocumentChange(d.url)" [value]="d.url" />
-    <label>{{d.title}}</label>
+    <label>Hearing Document {{i + 1}}</label>
   </div>
 </div>
 <br>
 <div *ngIf="!isConnected(); else connectedBlock">
   <h3 class="heading-medium">Waiting to connect to server...</h3>
-</div>
+</div>  
 <ng-template #connectedBlock>
   <div class="grid-row" *ngIf="!name; else withNameBlock">
     <input #addNameInput name="name" (change)="addName(addNameInput.value)"
