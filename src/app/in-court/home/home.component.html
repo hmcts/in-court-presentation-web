@@ -1,10 +1,9 @@
-<h1>In Court Presentation</h1>
 <div *ngIf="documents.length">
   <app-em-viewer class="column-two-thirds" *ngIf="currentDocument"
                [url]="currentDocument"
                [page]="page"
                (pageChanged)="pageChange($event)"></app-em-viewer>
-  <app-sidebar class="column-one-third"
+  <app-sidebar class="column-one-quarter"
                [sessionId]="sessionId"
                [documents]="documents"
                [currentDocument]="currentDocument"

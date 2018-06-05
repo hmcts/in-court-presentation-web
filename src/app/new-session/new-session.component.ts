@@ -36,7 +36,7 @@ export class NewSessionComponent implements OnInit {
     this.http.post<any>('/icp/sessions', {
       description: '',
       dateOfHearing: new Date(),
-      documents: this.documents.map(doc => doc.url),
+      documents: this.documents.filter(doc => doc.checked).map(doc => doc.url),
       participants: this.participants
     }, {
       observe: 'response'

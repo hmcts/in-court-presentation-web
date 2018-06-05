@@ -1,6 +1,8 @@
 <div class="grid-row documents" *ngIf="documents.length > 1">
   <legend>
-    <h3 class="heading-medium">Which document would you like to see?</h3>
+    <h3 class="heading-medium" *ngIf="!presenting && !following">Which document would you like to see?</h3>
+    <h3 class="heading-medium" *ngIf="presenting">Presenting</h3>
+    <h3 class="heading-medium" *ngIf="following && !presenting">You are following the presenter</h3>
   </legend>
   <div *ngFor="let d of documents" class="multiple-choice documents__document" data-hook="icp-sidebar-document">
     <input type="radio" name="document" class="multiple-choice"

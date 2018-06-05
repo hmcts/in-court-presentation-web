@@ -3,6 +3,7 @@ import {APP_ID, Inject, NgModule, PLATFORM_ID} from '@angular/core';
 
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule, Routes} from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 import {AppComponent} from './app.component';
 import {isPlatformBrowser} from '@angular/common';
@@ -27,7 +28,8 @@ const routes: Routes = [
       AppRoutingModule,
       RouterModule.forRoot(routes),
       HttpClientModule,
-      InCourtModule
+      InCourtModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
