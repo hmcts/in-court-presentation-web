@@ -1,13 +1,17 @@
-<div *ngIf="documents.length">
-  <app-em-viewer class="column-two-thirds" *ngIf="currentDocument"
-               [url]="currentDocument"
-               [page]="page"
-               (pageChanged)="pageChange($event)"></app-em-viewer>
-  <app-sidebar class="column-one-quarter"
-               [sessionId]="sessionId"
-               [documents]="documents"
-               [currentDocument]="currentDocument"
-               (documentChanged)="onDocumentChange($event)"
-               (followingChanged)="setFollowing($event)">
-  </app-sidebar>
+<div [ngClass]="{'in-court--presenting': isPresenting()}">
+  <div *ngIf="documents.length">
+    <app-em-viewer class="column-two-thirds" *ngIf="currentDocument"
+                 [url]="currentDocument"
+                 [page]="page"
+                 [annotate]="true"
+                 [showNotes]="false"
+                 (pageChanged)="pageChange($event)"></app-em-viewer>
+    <app-sidebar class="column-one-quarter"
+                 [sessionId]="sessionId"
+                 [documents]="documents"
+                 [currentDocument]="currentDocument"
+                 (documentChanged)="onDocumentChange($event)"
+                 (followingChanged)="setFollowing($event)">
+    </app-sidebar>
+  </div>
 </div>

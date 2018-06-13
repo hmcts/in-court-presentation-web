@@ -1,8 +1,10 @@
-import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {SidebarComponent} from '../sidebar/sidebar.component';
 import {HearingDataService} from '../hearing-data.service';
 import {UpdateService} from '../update.service';
+import {AnnotatedPdfViewerComponent, EmViewerComponent} from 'em-viewer-web';
+import {InCourtAnnotationsService} from '../in-court-annotations-service';
 
 @Component({
   selector: 'app-home',
@@ -23,9 +25,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild(SidebarComponent)
   public sidebar: SidebarComponent;
 
+  @ViewChild(EmViewerComponent)
+  private viewer: EmViewerComponent;
+
   constructor(private hearingDataService: HearingDataService,
               private updateService: UpdateService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              @Inject('AnnotationsService') private inCourtAnnotationsService: InCourtAnnotationsService) {
   }
 
   ngOnInit() {
@@ -33,17 +39,25 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.route.queryParamMap.subscribe(params => {
       this.sessionId = params.get('id');
       this.updateService.connect(this.sessionId);
+      this.inCourtAnnotationsService.connect(this.sessionId, this);
       this.loadHearingDetails();
     });
+    console.log(this.viewer);
   }
 
   public subscribe() {
     this.updateService.subscribeToUpdates().subscribe(this.onNext);
+    this.inCourtAnnotationsService.subscribeToUpdates().subscribe(() => {
+      if (this.viewer.viewerComponent) {
+        (<AnnotatedPdfViewerComponent>this.viewer.viewerComponent).renderAnnotations();
+      }
+    });
   }
 
   @HostListener('window:beforeunload', ['$event'])
   public unsubscribe() {
     this.updateService.unsubscribe();
+    this.inCourtAnnotationsService.unsubscribe();
   }
 
   ngOnDestroy() {
@@ -87,5 +101,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       this.unsubscribe();
     }
+  }
+
+  isPresenting() {
+    return this.sidebar && this.sidebar.presenting;
+  }
+
+  isFollowing() {
+    return this.sidebar && this.sidebar.following;
   }
 }
