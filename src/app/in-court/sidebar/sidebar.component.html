@@ -13,7 +13,7 @@
 <br>
 <div *ngIf="!isConnected(); else connectedBlock">
   <h3 class="heading-medium">Waiting to connect to server...</h3>
-</div>
+</div>  
 <ng-template #connectedBlock>
   <div class="grid-row" *ngIf="!name; else withNameBlock">
     <input #addNameInput name="name" (change)="addName(addNameInput.value)"

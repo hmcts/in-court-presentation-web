@@ -10,7 +10,7 @@ import {HearingDataService} from './hearing-data.service';
 import {DmDocDataService} from './dm-doc-data.service';
 import {EmViewerModule} from 'em-viewer-web';
 import {HttpClientModule} from '@angular/common/http';
-import {InCourtAnnotationsService} from './in-court-annotations-service';
+
 
 @NgModule({
   imports: [
@@ -19,14 +19,6 @@ import {InCourtAnnotationsService} from './in-court-annotations-service';
     EmViewerModule
   ],
   declarations: [HomeComponent, ParticipantsComponent, SidebarComponent],
-  providers: [UpdateService,
-    ParticipantsService,
-    StompServiceFactoryService,
-    HearingDataService,
-    DmDocDataService,
-    {
-      provide: "AnnotationsService",
-      useClass: InCourtAnnotationsService
-    }]
+  providers: [UpdateService, ParticipantsService, StompServiceFactoryService, HearingDataService, DmDocDataService]
 })
 export class InCourtModule { }
