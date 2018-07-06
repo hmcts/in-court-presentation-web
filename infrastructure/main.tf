@@ -19,6 +19,7 @@ module "app" {
   additional_host_name = "in-court-presentation.${var.env == "aat" ? "nonprod" : var.env}.platform.hmcts.net"
   https_only="false"
   web_sockets_enabled="true"
+  common_tags  = "${var.common_tags}"
 
   app_settings = {
     # REDIS_HOST = "${module.redis-cache.host_name}"
