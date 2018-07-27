@@ -2,6 +2,10 @@ variable "product" {
   type = "string"
 }
 
+variable "shared_product_name" {
+  default = "rpa"
+}
+
 variable "component" {
   type = "string"
 }
@@ -43,16 +47,8 @@ variable "common_tags" {
 //Addtional Vars ///////////////////////////////
 ////////////////////////////////////////////////
 variable "capacity" {
-  default = "2"
+  default = "1"
 }
-
-////////////////////////////////////////////////
-// Endpoints
-////////////////////////////////////////////////
-variable "vault_section" {
-  default = "test"
-}
-
 
 ////////////////////////////////////////////////
 // Logging
@@ -77,5 +73,5 @@ variable "log_output" {
 // Addtional
 ////////////////////////////////////////////////
 variable "s2s_service_name" {
-  default = "em_gw"
+  default = "jui_webapp"
 }
