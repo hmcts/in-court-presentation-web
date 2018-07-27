@@ -49,9 +49,6 @@ module "app" {
     LOG_OUTPUT = "${var.log_output}"
   }
 }
-provider "vault" {
-  address = "https://vault.reform.hmcts.net:6200"
-}
 
 data "azurerm_key_vault" "key_vault" {
   name = "${local.vault_name}"
