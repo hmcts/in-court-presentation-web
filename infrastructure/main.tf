@@ -2,14 +2,14 @@ locals {
   app_full_name = "${var.product}-${var.component}"
   ase_name = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
-  vault_name = "${var.shared_product_name}-${local.local_env}"
+  shared_vault_name = "${var.shared_product_name}-${local.local_env}"
 }
 # "${local.ase_name}"
 # "${local.app_full_name}"
 # "${local.local_env}"
 
 module "app" {
-  source = "git@github.com:hmcts/moj-module-webapp?ref=master"
+  source = "git@github.com:hmcts/cnp-module-webapp?ref=master"
   product = "${local.app_full_name}"
   location = "${var.location}"
   env = "${var.env}"
@@ -21,6 +21,8 @@ module "app" {
   https_only="false"
   web_sockets_enabled="true"
   common_tags  = "${var.common_tags}"
+  asp_rg = "${var.shared_product_name}-${var.env}"
+  asp_name = "${var.shared_product_name}-${var.env}"
 
   app_settings = {
     # REDIS_HOST = "${module.redis-cache.host_name}"
@@ -32,7 +34,7 @@ module "app" {
     # NODE_ENV = "${var.env}"
     # PORT = "8080"
     S2S_SECRET = "${data.azurerm_key_vault_secret.s2s_secret.value}"
-    S2S_NAME = "${var.s2s_service_name}"
+    S2S_NAME = "em_gw"
 
     # logging vars & healthcheck
     REFORM_SERVICE_NAME = "${local.app_full_name}"
@@ -44,23 +46,20 @@ module "app" {
     PACKAGES_PROJECT = "${var.team_name}"
     PACKAGES_ENVIRONMENT = "${var.env}"
 
-    ROOT_APPENDER = "${var.root_appender}"
-    JSON_CONSOLE_PRETTY_PRINT = "${var.json_console_pretty_print}"
-    LOG_OUTPUT = "${var.log_output}"
   }
 }
 
 data "azurerm_key_vault" "key_vault" {
-  name = "${local.vault_name}"
-  resource_group_name = "${local.vault_name}"
+    name = "${local.shared_vault_name}"
+    resource_group_name = "${local.shared_vault_name}"
 }
 
 data "azurerm_key_vault_secret" "s2s_secret" {
-  name = "jui-s2s-token"
-  vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
+    name = "em-s2s-token"
+    vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
 }
 
 data "azurerm_key_vault_secret" "oauth2_secret" {
-  name = "jui-oauth2-token"
-  vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
+    name = "show-oauth2-token"
+    vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
 }
