@@ -7,7 +7,7 @@ properties([
     projectUrlStr: 'https://github.com/hmcts/rpa-in-court-presentation-web/'
   ],
   pipelineTriggers([
-    [$class: 'GitHubPushTrigger']
+     cron('H 05 * * *')
   ])
 ])
 
@@ -19,7 +19,7 @@ def component = "icp-w"
 
 def channel = '#rpa-pipeline'
 
-withPipeline(type , product, component) {
+withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
 
     after('checkout') {
@@ -34,4 +34,3 @@ withPipeline(type , product, component) {
         error('Halting pipeline before prod stages')
     }
 }
-

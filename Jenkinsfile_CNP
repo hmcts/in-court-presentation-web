@@ -20,15 +20,17 @@ def component = "icp-w"
 def channel = '#rpa-pipeline'
 
 withPipeline(type , product, component) {
+    enableSlackNotifications(channel)
+
     after('checkout') {
         sh 'yarn cache clean'
     }
 
     after('build') {
-        echo '--After build hook--'
         sh 'npm run build-universal'
-        echo '----'
-     }
+    }
 
-    enableSlackNotifications(channel)
+    before('buildinfra:prod') {
+        error('Halting pipeline before prod stages')
+    }
 }
