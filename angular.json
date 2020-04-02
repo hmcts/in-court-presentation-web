@@ -16,7 +16,12 @@
                         "tsConfig": "src/tsconfig.app.json",
                         "polyfills": "src/polyfills.ts",
                         "assets": [
-                            {
+                          {
+                            "glob": "**/*",
+                            "input": "node_modules/@hmcts/media-viewer/assets",
+                            "output": "/assets"
+                          },
+                          {
                                 "glob": "**/*",
                                 "input": "src/assets",
                                 "output": "/assets"
@@ -38,7 +43,8 @@
                             }
                         ],
                         "styles": [
-                            "src/styles.scss"
+                          "src/styles.scss",
+                          "node_modules/@hmcts/media-viewer/assets/aui-styles.scss"
                         ],
                         "stylePreprocessorOptions": {
                           "includePaths": [
