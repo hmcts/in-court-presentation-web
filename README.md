@@ -24,3 +24,9 @@ The Github repository for the In Court Presentation API prototype can be found a
 ### This repo
 
 The front end is built using Angular 6. It communicates to the API layer using REST and Websockets.  
+
+To run:
+```
+yarn install
+yarn start-dev-proxy
+```
