@@ -43,8 +43,7 @@
                             }
                         ],
                         "styles": [
-                          "src/styles.scss",
-                          "node_modules/@hmcts/media-viewer/assets/aui-styles.scss"
+                          "src/styles.scss"
                         ],
                         "stylePreprocessorOptions": {
                           "includePaths": [

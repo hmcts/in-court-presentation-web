@@ -3,7 +3,6 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {HomeComponent} from './home.component';
 import {ParticipantsComponent} from '../participants/participants.component';
 import {SidebarComponent} from '../sidebar/sidebar.component';
-import {EmViewerModule} from 'em-viewer-web';
 import {UpdateService} from '../update.service';
 import {Mock} from 'protractor/built/driverProviders';
 import {Observable} from 'rxjs/Observable';
@@ -80,7 +79,7 @@ describe('HomeComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HomeComponent, ParticipantsComponent, SidebarComponent],
-      imports: [EmViewerModule, HttpClientTestingModule],
+      imports: [HttpClientTestingModule],
       providers: [
         HearingDataService, UpdateService, ParticipantsService, DmDocDataService,
         {

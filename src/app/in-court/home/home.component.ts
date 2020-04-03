@@ -1,8 +1,9 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SidebarComponent} from '../sidebar/sidebar.component';
 import {HearingDataService} from '../hearing-data.service';
 import {UpdateService} from '../update.service';
+import { ToolbarButtonVisibilityService } from "@hmcts/media-viewer";
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(private hearingDataService: HearingDataService,
               private updateService: UpdateService,
+              public readonly toolbarButtons: ToolbarButtonVisibilityService,
+              private router: Router,
               private route: ActivatedRoute) {
   }
 
@@ -32,8 +35,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subscribed = false;
     this.route.queryParamMap.subscribe(params => {
       this.sessionId = params.get('id');
-      this.updateService.connect(this.sessionId);
-      this.loadHearingDetails();
+      if (this.sessionId !== null) {
+        this.documents = [{url: 'assets/documents/sample1.pdf', checked: true}, {url: 'assets/documents/sample2.pdf', checked: false}];
+        this.updateService.connect(this.sessionId);
+        this.showToolbarButtons();
+        this.loadHearingDetails();
+      } else {
+        this.router.navigateByUrl('new');
+      }
     });
   }
 
@@ -51,6 +60,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public pageChange(page: number) {
+    console.log(page);
     this.page = page;
     if (this.sidebar.presenting) {
       this.updateService.broadcastDocumentChange(page, this.currentDocument);
@@ -66,10 +76,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private loadHearingDetails() {
-    this.hearingDataService.loadHearingDetails(this.sessionId).subscribe(docs => {
-      this.documents = docs;
-      this.currentDocument = docs[0].url;
-    });
+    this.currentDocument = this.documents[0].url;
+
+    // Old code made call to DM store via proxy.
+    // this.hearingDataService.loadHearingDetails(this.sessionId).subscribe(docs => {
+    //   this.documents = docs;
+    //   this.currentDocument = docs[0].url;
+    // });
+  }
+
+  private showToolbarButtons(){
+    this.toolbarButtons.showNavigation = true;
   }
 
   onDocumentChange(document: string) {

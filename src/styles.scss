@@ -7,6 +7,13 @@ $path: "/public/images/";
 @import '../node_modules/govuk_template_jinja/assets/stylesheets/govuk-template.css';
 @import '../node_modules/govuk_template_jinja/assets/stylesheets/fonts.css';
 
+// Import GOV.UK Frontend
+@import "~govuk-frontend/all";
+@import "~@hmcts/frontend/all";
+// Import Media Viewer Styles
+@import "~@hmcts/media-viewer/assets/all";
+
+
 #content {
   max-width: 1200px;
 }

@@ -8,7 +8,7 @@ import {UpdateService} from './update.service';
 import {StompServiceFactoryService} from './stomp-service-factory.service';
 import {HearingDataService} from './hearing-data.service';
 import {DmDocDataService} from './dm-doc-data.service';
-import {EmViewerModule} from 'em-viewer-web';
+import {MediaViewerModule} from "@hmcts/media-viewer";
 import {HttpClientModule} from '@angular/common/http';
 
 
@@ -16,7 +16,7 @@ import {HttpClientModule} from '@angular/common/http';
   imports: [
     CommonModule,
     HttpClientModule,
-    EmViewerModule
+    MediaViewerModule
   ],
   declarations: [HomeComponent, ParticipantsComponent, SidebarComponent],
   providers: [UpdateService, ParticipantsService, StompServiceFactoryService, HearingDataService, DmDocDataService]

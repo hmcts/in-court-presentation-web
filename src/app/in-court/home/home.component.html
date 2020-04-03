@@ -1,8 +1,11 @@
 <div *ngIf="documents.length">
-  <app-em-viewer class="column-two-thirds" *ngIf="currentDocument"
-               [url]="currentDocument"
-               [page]="page"
-               (pageChanged)="pageChange($event)"></app-em-viewer>
+  <mv-media-viewer class="column-two-thirds"
+                   [url]="currentDocument"
+                   [toolbarButtonOverrides]="toolbarButtons"
+                   [page]="page"
+                   contentType="pdf"
+                   (pageChange)="pageChange($event)">
+  </mv-media-viewer>
   <app-sidebar class="column-one-quarter"
                [sessionId]="sessionId"
                [documents]="documents"
