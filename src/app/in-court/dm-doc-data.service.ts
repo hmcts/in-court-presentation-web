@@ -22,6 +22,12 @@ export class DmDocDataService {
     });
   }
 
+  public formatDocumentUrls(documentUrls: string[]): any[] {
+    return documentUrls.map(doc => {
+      return {url: doc + '/binary', checked: false}
+    });
+  }
+
   private getDocumentPromises(documentUrls: string[]) {
     return documentUrls.map(url => {
       return this.convertToPromise(url);

@@ -8,6 +8,7 @@ import {DmDocDataService} from '../in-court/dm-doc-data.service';
   templateUrl: './new-session.component.html',
   styleUrls: ['./new-session.component.scss']
 })
+
 export class NewSessionComponent implements OnInit {
 
   participants: string[] = [];
@@ -21,10 +22,14 @@ export class NewSessionComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
-      const documentUrls = params.getAll('documents');
-      this.docDataService.getDataFromUrls(documentUrls).subscribe((docs) => {
-        this.documents = docs;
-      });
+      // const documentUrls = params.getAll('documents');
+      // this.docDataService.getDataFromUrls(documentUrls).subscribe((docs) => {
+      //   this.documents = docs;
+      // });
+
+      // hardcoded currently.
+      const documentUrls = [];
+      this.documents = this.docDataService.formatDocumentUrls(documentUrls);
     });
   }
 

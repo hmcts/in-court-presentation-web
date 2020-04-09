@@ -12,10 +12,14 @@ export class HearingDataService {
   public loadHearingDetails(sessionId: string): Observable<any[]> {
     return new Observable<any[]>(observer => {
       this.http.get<any>(`/icp/sessions/${sessionId}`).subscribe(resp => {
-        this.docDataService.getDataFromUrls(resp.documents).subscribe(docs => {
-          observer.next(docs);
-          observer.complete();
-        });
+        observer.next(resp.documents);
+        observer.complete();
+
+        // Old code used to call dm store again.
+        // this.docDataService.getDataFromUrls(resp.documents).subscribe(docs => {
+        //   observer.next(docs);
+        //   observer.complete();
+        // });
       });
     });
   }

@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.route.queryParamMap.subscribe(params => {
       this.sessionId = params.get('id');
       if (this.sessionId !== null) {
-        this.documents = [{url: 'assets/documents/sample1.pdf', checked: true}, {url: 'assets/documents/sample2.pdf', checked: false}];
         this.updateService.connect(this.sessionId);
         this.showToolbarButtons();
         this.loadHearingDetails();
@@ -60,7 +59,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public pageChange(page: number) {
-    console.log(page);
     this.page = page;
     if (this.sidebar.presenting) {
       this.updateService.broadcastDocumentChange(page, this.currentDocument);
@@ -76,13 +74,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private loadHearingDetails() {
-    this.currentDocument = this.documents[0].url;
-
-    // Old code made call to DM store via proxy.
-    // this.hearingDataService.loadHearingDetails(this.sessionId).subscribe(docs => {
-    //   this.documents = docs;
-    //   this.currentDocument = docs[0].url;
-    // });
+    this.hearingDataService.loadHearingDetails(this.sessionId).subscribe(docs => {
+      this.documents = docs;
+      this.currentDocument = docs[0];
+    });
   }
 
   private showToolbarButtons(){
