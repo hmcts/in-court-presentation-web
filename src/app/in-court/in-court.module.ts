@@ -6,7 +6,6 @@ import {ParticipantsComponent} from './participants/participants.component';
 import {SidebarComponent} from './sidebar/sidebar.component';
 import {UpdateService} from './update.service';
 import {StompServiceFactoryService} from './stomp-service-factory.service';
-import {HearingDataService} from './hearing-data.service';
 import {DmDocDataService} from './dm-doc-data.service';
 import {MediaViewerModule} from "@hmcts/media-viewer";
 import {HttpClientModule} from '@angular/common/http';
@@ -19,6 +18,6 @@ import {HttpClientModule} from '@angular/common/http';
     MediaViewerModule
   ],
   declarations: [HomeComponent, ParticipantsComponent, SidebarComponent],
-  providers: [UpdateService, ParticipantsService, StompServiceFactoryService, HearingDataService, DmDocDataService]
+  providers: [UpdateService, ParticipantsService, StompServiceFactoryService, DmDocDataService]
 })
 export class InCourtModule { }

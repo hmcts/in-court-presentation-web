@@ -1,9 +1,9 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SidebarComponent} from '../sidebar/sidebar.component';
-import {HearingDataService} from '../hearing-data.service';
 import {UpdateService} from '../update.service';
 import { ToolbarButtonVisibilityService } from "@hmcts/media-viewer";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-home',
@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild(SidebarComponent)
   public sidebar: SidebarComponent;
 
-  constructor(private hearingDataService: HearingDataService,
+  constructor(private http: HttpClient,
               private updateService: UpdateService,
               public readonly toolbarButtons: ToolbarButtonVisibilityService,
               private router: Router,
@@ -74,9 +74,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private loadHearingDetails() {
-    this.hearingDataService.loadHearingDetails(this.sessionId).subscribe(docs => {
-      this.documents = docs;
-      this.currentDocument = docs[0];
+    this.http.get<any>(`/icp/sessions/${this.sessionId}`).subscribe(docs => {
+      this.documents = docs.documents;
+      this.currentDocument = this.documents[0];
     });
   }
 

@@ -28,7 +28,7 @@ export class NewSessionComponent implements OnInit {
       // });
 
       // hardcoded currently.
-      const documentUrls = ['/documents/1bcaec7c-2452-4d8f-887d-d8fabca13382', '/documents/a6bcd783-538e-4ad9-a25d-2ebce8c411cf', '/documents/859aaad7-6e23-4edd-a5ee-1a0b32843f05'];
+      const documentUrls = ['/documents/39875d67-4f2a-409d-9193-68d1f50a37a4'];
       this.documents = this.docDataService.formatDocumentUrls(documentUrls);
     });
   }

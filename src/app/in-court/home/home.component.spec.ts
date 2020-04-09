@@ -4,16 +4,13 @@ import {HomeComponent} from './home.component';
 import {ParticipantsComponent} from '../participants/participants.component';
 import {SidebarComponent} from '../sidebar/sidebar.component';
 import {UpdateService} from '../update.service';
-import {Mock} from 'protractor/built/driverProviders';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import {HearingDataService} from '../hearing-data.service';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {ParticipantsService} from '../participants.service';
 import {DmDocDataService} from '../dm-doc-data.service';
 import {StompServiceFactoryService} from '../stomp-service-factory.service';
-import {StompService} from '@stomp/ng2-stompjs';
 import {StompHeaders} from '@stomp/ng2-stompjs/src/stomp-headers';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
@@ -81,7 +78,7 @@ describe('HomeComponent', () => {
       declarations: [HomeComponent, ParticipantsComponent, SidebarComponent],
       imports: [HttpClientTestingModule],
       providers: [
-        HearingDataService, UpdateService, ParticipantsService, DmDocDataService,
+        UpdateService, ParticipantsService, DmDocDataService,
         {
           provide: StompServiceFactoryService, useClass: MockStompServiceFactoryService
         },
