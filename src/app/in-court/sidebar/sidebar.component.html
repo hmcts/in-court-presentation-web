@@ -6,14 +6,14 @@
   </legend>
   <div *ngFor="let d of documents; let i = index" class="multiple-choice documents__document" data-hook="icp-sidebar-document">
     <input type="radio" name="document" class="multiple-choice"
-           [checked]="isDocumentChecked(d.url)" (change)="onDocumentChange(d.url)" [value]="d.url" />
+           [checked]="isDocumentChecked(d)" (change)="onDocumentChange(d)" [value]="d" />
     <label>Hearing Document {{i + 1}}</label>
   </div>
 </div>
 <br>
 <div *ngIf="!isConnected(); else connectedBlock">
   <h3 class="heading-medium">Waiting to connect to server...</h3>
-</div>  
+</div>
 <ng-template #connectedBlock>
   <div class="grid-row" *ngIf="!name; else withNameBlock">
     <input #addNameInput name="name" (change)="addName(addNameInput.value)"

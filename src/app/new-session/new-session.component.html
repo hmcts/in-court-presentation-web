@@ -10,10 +10,10 @@
         <li class="column-full new__document" *ngFor="let d of documents;">
           <div class="multiple-choice new__document__checkbox">
             <input type="checkbox" class="multiple-choice" value="d.checked" [(ngModel)]="d.checked" />
-            <label>{{d.title}}</label>
+            <label>{{d.url}}</label>
           </div>
 
-          <img src="{{d.thumb}}"/>
+<!--          <img src="{{d.thumb}}"/>-->
         </li>
       </ul>
     </div>
